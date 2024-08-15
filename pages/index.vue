@@ -4,14 +4,16 @@
 
     <div class="bg-slate-600 p-2 flex gap-x-2 rounded-xl">
       <div class="day flex flex-col gap-y-2 p-2" v-for="(date, index) in dateAvailabe" :key="index">
-        <div class="bg-gray-400 rounded-lg px-2 py-4">{{ date.date }}</div>
+        <div class="bg-gray-400 rounded-lg px-2 py-4"
+         :class="{ 'bg-slate-300': dateSelected?.date === date.date }"
+        >{{ date.date }}</div>
         <!-- <button @click=""></button> -->
         <ul>
           <li v-for="(hour, hourIndex) in date.hours" :key="hourIndex" class="flex flex-col items-center">
             <button :for="hour"
              class="bg-gray-400 my-1 rounded-lg px-2 py-1 curso"
-             :class="{ 'bg-slate-300': active === hourIndex}"
-             @click.stop="() => handleActive({date: date.date, hours: hour}, hourIndex)"
+             :class="{ 'bg-slate-300': dateSelected?.hours === hour}"
+             @click.stop="() => handleActive({date: date.date, hours: hour})"
             >
               {{ hour }}
 
@@ -38,7 +40,6 @@ type Hour = {
   hours: string
 }
 
-const active = ref<number>();
 const dateSelected = ref<Hour>();
 
 const dateAvailabe = ref([
@@ -52,22 +53,16 @@ const dateAvailabe = ref([
   },
 ])
 
-const handleActive = (hour: Hour, hourIndex: number) => {
-  console.log("🚀 ~ handleActive ~ hour:", hour)
-  console.log("🚀 ~ handleActive ~ dateSelected.value?.hours == hour.hours:", dateSelected.value?.hours == hour.hours)
-  console.log("🚀 ~ handleActive ~ dateSelected.value:", dateSelected.value)
+const handleActive = (hour: Hour) => {
   if (dateSelected.value?.hours == hour.hours  ){
-    dateSelected.value = {
+    return dateSelected.value = {
       date: '',
       hours: ''
-    },
-    console.log('caisu')
-
-    return active.value == hourIndex ? (active.value = -1) : (active.value = hourIndex);
+    }
   }
   
-  dateSelected.value = hour;
-  return active.value == hourIndex ? (active.value = -1) : (active.value = hourIndex);
+
+  return dateSelected.value = hour;
 }
 
 </script>
