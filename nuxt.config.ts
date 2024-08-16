@@ -15,12 +15,16 @@ export default defineNuxtConfig({
   },
   modules: [
     '@nuxtjs/tailwindcss',
-    '@primevue/nuxt-module'
+    '@primevue/nuxt-module',
+    '@pinia/nuxt'
   ],
   primevue: {
     options: {
         unstyled: true
     },
     importPT: { from: path.resolve(__dirname, './presets/aura/') }
-  }
+  },
+  pinia: {
+    storesDirs: ['./stores/**', './custom-folder/stores/**'],
+  },
 })
