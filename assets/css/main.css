@@ -1,4 +1,6 @@
 /* Primary and Surface Palettes */
+@import 'primeicons/primeicons.css';
+
 :root {
   --p-primary-50: var(--p-surface-50);
   --p-primary-100: var(--p-surface-100);
