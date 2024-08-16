@@ -16,7 +16,8 @@ export default defineNuxtConfig({
   modules: [
     '@nuxtjs/tailwindcss',
     '@primevue/nuxt-module',
-    '@pinia/nuxt'
+    '@pinia/nuxt',
+    "@nuxtjs/supabase"
   ],
   primevue: {
     options: {
@@ -27,4 +28,16 @@ export default defineNuxtConfig({
   pinia: {
     storesDirs: ['./stores/**', './custom-folder/stores/**'],
   },
+  supabase: {
+    url: process.env.SUPABASE_URL,
+    key: process.env.SUPABASE_KEY,
+    serviceKey: process.env.SUPABASE_SERVICE_KEY,
+    redirectOptions: {
+      login: '/admin',
+      callback: '/',
+      include: undefined,
+      exclude: [],
+      cookieRedirect: false,
+    }
+  }
 })
