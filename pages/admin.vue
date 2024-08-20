@@ -48,8 +48,11 @@ defineOptions({
 const toast = useToast();
 const confirm = useConfirm();
 const useAdmin = useAdminStore();
+const client = useSupabaseClient();
+const user = useSupabaseUser();
+console.log("🚀 ~ user:", user.value)
 // models
-const showLogin = ref<boolean>(true);
+const showLogin = ref<boolean>(false);
 const date = ref<string>('');
 const hour = ref('');
 const dateAvailabe = useAdmin.dateAvailable;
@@ -70,6 +73,15 @@ const handleAdd = () => {
   
     return;
   }
+  
+  console.log("🚀 ~ hasError ~ user:", user)
+  if(!user.value) {
+    date.value = '';
+    hour.value = '';
+    showLogin.value = true
+  
+    return;
+  }
 
   addDate();
 }
@@ -85,6 +97,7 @@ const addDate = () => {
 }
 
 const hasError = () => {
+
   const exists = dateAvailabe.some(item => {
 
     return item.date === formatDate(date.value) && item.hour === formatHour(hour.value)

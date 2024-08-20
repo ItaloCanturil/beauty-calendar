@@ -32,12 +32,6 @@ export default defineNuxtConfig({
     url: process.env.SUPABASE_URL,
     key: process.env.SUPABASE_KEY,
     serviceKey: process.env.SUPABASE_SERVICE_KEY,
-    redirectOptions: {
-      login: '/admin',
-      callback: '/',
-      include: undefined,
-      exclude: [],
-      cookieRedirect: false,
-    }
+    redirect: false
   }
 })

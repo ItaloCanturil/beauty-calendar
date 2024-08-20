@@ -9,7 +9,7 @@
     <div class="flex justify-center my-4">É necessário fazer o login</div>
 
     <div class="flex justify-center mb-4">
-      <Button label="Entrar com o Google" outlined class="" icon="pi pi-google"></Button>
+      <Button label="Entrar com o Google" outlined class="" icon="pi pi-google" @click="loginWithProvider"></Button>
     </div>
   </ModalAtom> 
 </template>
@@ -17,9 +17,28 @@
 <script setup lang="ts">
 import ModalAtom from './atom/ModalAtom.vue';
 
+const client = useSupabaseClient();
+
 defineProps({
   active: { type: Boolean, required: true, default: false }
 })
 
-defineEmits(['close'])
+defineEmits(['close']);
+
+const loginWithProvider = async () => {
+  const { data, error } = await client.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: '/admin',
+      queryParams: {client: 'admin'}
+    }
+  })
+  console.log("🚀 ~ loginWithProvider ~ data:", data)
+
+  if(error){
+    throw createError({
+      message: error.message
+    })
+  }
+}
 </script>
