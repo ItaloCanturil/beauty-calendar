@@ -1,4 +1,5 @@
 export type IDate = {
-  date: string,
-  hour: string
+  available_date: string,
+  available_time: string
+  admin_id: string,
 }
