@@ -14,6 +14,9 @@ importers:
       '@pinia/nuxt':
         specifier: ^0.5.3
         version: 0.5.3(magicast@0.3.4)(rollup@4.20.0)(vue@3.4.37)
+      '@primevue/themes':
+        specifier: ^4.0.5
+        version: 4.0.5
       nuxt:
         specifier: ^3.12.4
         version: 3.12.4(@parcel/watcher@2.4.1)(@types/node@22.2.0)(ioredis@5.4.1)(magicast@0.3.4)(rollup@4.20.0)(terser@5.31.5)(vite@5.4.0(@types/node@22.2.0)(terser@5.31.5))
@@ -873,6 +876,10 @@ packages:
 
   '@primevue/nuxt-module@4.0.4':
     resolution: {integrity: sha512-gcHWTlb4cSbpwK7vXW3nqpDE3Iijs/WlbdgW3KOiBhsSaV81xSzZ7GlSA5UmGSfQYU3tfEhDU6B0juA6rVAGNw==}
+    engines: {node: '>=12.11.0'}
+
+  '@primevue/themes@4.0.5':
+    resolution: {integrity: sha512-cRrAhOapOT8eFCTDwNdB/acg2ZEEkn7y6h6p188PYSjJsWnYK+D8eI1Js1ZB5HwWo4sWs3oR3Sy8bPwejnGbAw==}
     engines: {node: '>=12.11.0'}
 
   '@rollup/plugin-alias@5.1.0':
@@ -4502,6 +4509,10 @@ snapshots:
       - rollup
       - supports-color
       - vue
+
+  '@primevue/themes@4.0.5':
+    dependencies:
+      '@primeuix/styled': 0.0.5
 
   '@rollup/plugin-alias@5.1.0(rollup@4.20.0)':
     dependencies:
