@@ -1,5 +1,5 @@
 <template>
-  <div class="px-4 grid grid-rows-3 h-full py-4">
+  <div class="grid grid-rows-3 h-full py-4">
     <div class="flex flex-col items-center">
       <h1>Selecione as datas disponíveis:</h1>
 

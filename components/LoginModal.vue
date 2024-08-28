@@ -33,7 +33,6 @@ const loginWithProvider = async () => {
       queryParams: {client: 'admin'}
     }
   })
-  console.log("🚀 ~ loginWithProvider ~ data:", data)
 
   if(error){
     throw createError({
