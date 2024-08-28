@@ -12,9 +12,9 @@ const user = useSupabaseUser();
 
 defineEmits(['login'])
 
-const logout = () => {
+const logout = async () => {
   try {
-    let { error } = client.auth.signOut();
+    let { error } = await client.auth.signOut();
 
     if (error) {
       throw error;
