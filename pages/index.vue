@@ -35,6 +35,10 @@ defineOptions({
   name: 'Home'
 })
 
+definePageMeta({
+  middleware: 'auth'
+})
+
 type Hour = {
   date: string,
   hours: string

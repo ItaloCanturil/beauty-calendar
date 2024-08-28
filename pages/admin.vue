@@ -43,10 +43,13 @@
 
 <script setup lang="ts">
 import { formatDate } from '#imports';
-import HeaderMenu from '~/components/atom/HeaderMenu.vue';
 import DatePicker from 'primevue/datepicker';
 import Button from 'primevue/button';
 import Toast from 'primevue/toast';
+
+definePageMeta({
+  middleware: 'auth'
+})
 
 defineOptions({
   name: 'admin'
