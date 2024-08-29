@@ -13,5 +13,10 @@ import LoginModal from '~/components/LoginModal.vue';
 import { useProfileStore } from '~/stores/profile';
 
 const useProfile = useProfileStore();
+const user = useSupabaseUser();
 const showLogin = ref<boolean>(false);
+
+onMounted(async () => {
+  await useProfile.getProfile(user.value.id)
+})
 </script>
