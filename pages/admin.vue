@@ -1,6 +1,6 @@
 <template>
   <div class="grid grid-rows-3 h-full py-4">
-    <div class="flex flex-col items-center">
+    <div class="flex flex-col items-center self-center">
       <h1>Selecione as datas disponíveis:</h1>
 
       <div class="flex flex-col gap-2 justify-center">
@@ -33,7 +33,7 @@
       </ul>
     </div>
 
-    <Button v-if="dateAvailabe.length > 0" @click="saveDates" label="Salvar" type="submit" severity="success" icon="pi pi-check" icon-pos="right"></Button>
+    <Button class="self-center justify-self-center" v-if="dateAvailabe.length > 0" @click="saveDates" label="Salvar" type="submit" severity="success" icon="pi pi-check" icon-pos="right"></Button>
 
     <Toast/>
     <ConfirmDialog/>
@@ -108,6 +108,8 @@ const hasError = () => {
     - [ ] não se pode adicionar datas passadas
     - [ ] só se pode adicionar se o usuário for admin
   */
+
+  // const pastTime = 
 
   const exists = useAdmin.existsDate(available_date.value, available_time.value)
 

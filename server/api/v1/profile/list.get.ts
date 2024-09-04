@@ -1,23 +1,13 @@
-// sessao do profile
 import { serverSupabaseClient } from '#supabase/server';
 
 export default defineEventHandler(async (event) => {
   try {
     const supabase = await serverSupabaseClient(event);
-    const { id } = getQuery(event);
 
-    if (!id) {
-      throw createError({
-        statusCode: 400,
-        statusMessage: 'Bad Request',
-        message: 'Faltando o paramêtro id'
-      })
-    }
-
-    const { data, error } = await supabase
-      .from('profiles')
+    const { data, error } = await supabase.
+      from('profiles')
       .select('*')
-      .eq('id', id);
+      .eq('role', 'admin')
 
     if (error) {
       throw createError({

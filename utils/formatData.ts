@@ -11,3 +11,7 @@ export const formatDate = (hour: string) => {
 
   return date.split(',')[0]
 }
+
+export const stripTimeAndTimezone = (dateTime: string): string => {
+  return new Date(dateTime).toISOString().split('T')[0];
+};

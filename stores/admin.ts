@@ -4,18 +4,13 @@ import type { IDate } from "./models/admin"
 export const useAdminStore = defineStore('admin', () => {
   const supabase = useSupabaseClient();
   const dateAvailable = ref<IDate[]>([]);
+  const datesById = ref<IDate[]>([]);
 
-  async function getAvailableDate () {
+  async function getAvailableDate (id: string) {
     try {
-      let { data: date_available, error } = await supabase.from('date_available').select('*');
+      const data = await $fetch(`/api/v1/dates?id=${id}`, { method: 'get'})
       
-      if (error) {
-        throw createError ({
-          statusMessage: error.message,
-        })
-      }
-
-      dateAvailable.value = date_available as IDate[];
+      datesById.value = data;
     } catch (err) {
       if (err) {
         throw createError (err)
@@ -68,6 +63,7 @@ export const useAdminStore = defineStore('admin', () => {
 
   return {
     dateAvailable,
+    datesById,
     getAvailableDate,
     existsDate,
     pushDate,

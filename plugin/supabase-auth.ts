@@ -4,6 +4,7 @@ export default defineNuxtPlugin(async () => {
   const supabase = useSupabaseClient();
 
   supabase.auth.onAuthStateChange(async (event, session) => {
+    console.log("🚀 ~ supabase.auth.onAuthStateChange ~ event:", event)
     if (event === 'SIGNED_IN' && session) {
       const authRoute = localStorage.getItem('authRoute');
       const role = authRoute === '/admin' ? 'admin' : 'client';

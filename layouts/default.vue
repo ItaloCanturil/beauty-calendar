@@ -17,6 +17,8 @@ const user = useSupabaseUser();
 const showLogin = ref<boolean>(false);
 
 onMounted(async () => {
-  await useProfile.getProfile(user.value.id)
+  if(user.value.id) {
+    await useProfile.getProfile(user.value.id)
+  }
 })
 </script>
