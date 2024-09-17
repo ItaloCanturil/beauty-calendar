@@ -1,32 +1,5 @@
 <template>
   <div class="flex flex-col justify-center items-center">
-    <!-- <h1 class="text-center">Horários disponíveis</h1>
-
-    <div class="bg-slate-600 p-2 flex gap-x-2 rounded-xl">
-      <div class="day flex flex-col gap-y-2 p-2" v-for="(date, index) in dateAvailabe" :key="index">
-        <div class="bg-gray-400 rounded-lg px-2 py-4"
-         :class="{ 'bg-slate-300': dateSelected?.date === date.date }"
-        >{{ date.date }}</div>
-        <ul>
-          <li v-for="(hour, hourIndex) in date.hours" :key="hourIndex" class="flex flex-col items-center">
-            <button :for="hour"
-             class="bg-gray-400 my-1 rounded-lg px-2 py-1 curso"
-             :class="{ 'bg-slate-300': dateSelected?.hours === hour}"
-             @click.stop="() => handleActive({date: date.date, hours: hour})"
-            >
-              {{ hour }}
-
-              <input type="checkbox" name="" :id="hour" class="hidden">
-            </button>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <p v-if="dateSelected">
-      Horario selecionado: {{ dateSelected }}
-    </p> -->
-
     <h1>Escolha o profissional:</h1>
 
     <div class="grid row-auto col-start-1 w-full gap-2">
@@ -70,11 +43,18 @@
             <Button v-if="profile.phone_number" as="a" href="//wa.me/<number>" target="_blank" severity="warn" label="Enviar mensagem no Whatsapp" icon="pi pi-whatsapp" icon-pos="right"></Button>
           </div>
         </div>
+
+        <Button label="Marcar horário" v-if="dateSelected?.hours" @click="handleScheduleDate"></Button>
     </div>
+
+    <Toast/>
   </div>
 </template>
 
 <script setup lang="ts">
+import Toast from 'primevue/toast';
+import { useDateStore } from '~/stores/date';
+
 defineOptions({
   name: 'Home'
 })
@@ -88,6 +68,8 @@ type Hour = {
   hours: string,
 }
 
+const toast = useToast();
+const useDate = useDateStore();
 const useAdmin = useAdminStore();
 const useProfile = useProfileStore();
 const profiles = computed(() => useProfile.profiles);
@@ -114,6 +96,40 @@ const handleCallDates = async (id: string) => {
 
   if(showDates) {
     await useAdmin.getAvailableDate(id);
+  }
+}
+
+const handleScheduleDate = async () => {
+  const dateParam = {
+      name: useProfile.profile!.full_name,
+      date: dateSelected.value!.date,
+      hours: dateSelected.value!.hours,
+      location: 'Google Meet',
+      client_email: useProfile.profile!.email ,
+      admin_email: useProfile.profiles![0].email as string
+    }
+    
+  try {
+    if(useProfile.sessionProfile?.provider_token) {
+      await useDate.scheduleDate(dateParam, useProfile.sessionProfile?.provider_token);
+    }
+
+    toast.add({ severity: 'success', detail: 'Horário Marcado', life: 1500});
+
+    clearDateSelect();
+
+  } catch (error: any) {
+    createError({
+      statusCode: error.code,
+      statusMessage: error.message
+    })
+  }
+}
+
+const clearDateSelect = () => {
+  dateSelected.value = {
+    date: '',
+    hours: ''
   }
 }
 

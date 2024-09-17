@@ -17,7 +17,8 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@primevue/nuxt-module',
     '@pinia/nuxt',
-    "@nuxtjs/supabase"
+    "@nuxtjs/supabase",
+    '@vueuse/nuxt'
   ],
   primevue: {
     options: {

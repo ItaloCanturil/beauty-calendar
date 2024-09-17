@@ -18,6 +18,7 @@
 import ModalAtom from './atom/ModalAtom.vue';
 
 const client = useSupabaseClient();
+const route = useRouter();
 
 defineProps({
   active: { type: Boolean, required: true, default: false }
@@ -30,9 +31,19 @@ const loginWithProvider = async () => {
     provider: 'google',
     options: {
       redirectTo: '/admin',
-      queryParams: {client: 'admin'}
+      queryParams: {
+        client: 'admin',
+        access_type: 'offline',
+        prompt: 'consent'
+      },
+      scopes: 'https://www.googleapis.com/auth/calendar.events'
     }
   })
+
+  if (data) {
+    console.log("🚀 ~ loginWithProvider ~ data:", data)
+    // route.push('/admin')
+  }
 
   if(error){
     throw createError({

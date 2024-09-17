@@ -1,5 +1,8 @@
 export default defineNuxtRouteMiddleware((to, from) => {
-  if(process.client) {
+  const session = useSupabaseSession();
+
+  if (process.client) {
     localStorage.setItem('authRoute', to.path);
   }
+
 })

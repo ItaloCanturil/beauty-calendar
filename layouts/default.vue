@@ -14,11 +14,17 @@ import { useProfileStore } from '~/stores/profile';
 
 const useProfile = useProfileStore();
 const user = useSupabaseUser();
+const session = useSupabaseSession();
 const showLogin = ref<boolean>(false);
 
 onMounted(async () => {
   if(user.value.id) {
-    await useProfile.getProfile(user.value.id)
+    await useProfile.getProfile(user.value.id);
+  }
+
+  if (session) {
+    console.log("🚀 ~ onMounted ~ session:", session)
+    
   }
 })
 </script>

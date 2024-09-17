@@ -27,4 +27,5 @@ export interface IProfile {
   full_name: string;
   avatar_url: string;
   phone_number: string;
+  email: string;
 }

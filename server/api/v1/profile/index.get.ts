@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
       })
     }
 
-    return data;
+    return data.shift();
   } catch (error: any) {
     throw createError({
       statusCode: error.statusCode || 500,
