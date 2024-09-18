@@ -3,11 +3,9 @@ import type { DateScheduleEvent, ScheduleEventParam } from "./models/date"
 export const useDateStore = defineStore('date', () => {
 
   const scheduleDate = async (param: ScheduleEventParam, accessToken: string) => {
-    console.log("🚀 ~ scheduleDate ~ access_token:", accessToken)
-    const startDate = new Date(`${param.date} ${param.hours} UTC-3`);
     const [hours, min, seconds] = param.hours.split(':');
     const date = new Date();
-    date.setHours(+hours + 1, min, seconds);
+    date.setHours(+hours + 1, Number(min), Number(seconds));
     const endHours = date.toTimeString().split(' ')[0];
 
     const endDate = new Date(`${param.date} ${endHours} UTC-3`);
