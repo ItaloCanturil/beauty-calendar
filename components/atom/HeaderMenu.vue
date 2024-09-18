@@ -1,8 +1,8 @@
 <template>
   <div class="flex justify-between w-full">
-    <Button icon="pi pi-bars" text rounded></Button>
-    <Button icon="pi pi-sign-out" text rounded @click="logout" v-if="user"></Button>
-    <Button icon="pi pi-sign-in" text rounded @click="$emit('login', true)" v-else></Button>
+    <button icon="pi pi-bars" text rounded></button>
+    <button icon="pi pi-sign-out" text rounded @click="logout" v-if="user"></button>
+    <button icon="pi pi-sign-in" text rounded @click="$emit('login', true)" v-else></button>
   </div>
 </template>
 

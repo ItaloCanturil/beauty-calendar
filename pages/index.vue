@@ -12,7 +12,7 @@
           <div class="actions mt-4">
             <!-- TODO botão whatsapp se não tiver horários disponíveis -->
 
-            <Button :label="!showDates ? 'Visualizar horários disponivéis' : 'Fechar horários'" severity="info" @click="handleCallDates(profile.id)"/>
+            <button :label="!showDates ? 'Visualizar horários disponivéis' : 'Fechar horários'" severity="info" @click="handleCallDates(profile.id)"/>
           </div>
 
           <div class="bg-slate-600 p-2 flex gap-x-2 rounded-xl" v-if="dateAvailabe.length > 0">
@@ -40,11 +40,11 @@
             <div class="w-32">
               <img src="/img/undraw_no_data_re_kwbl.svg" alt="No date available">
             </div>
-            <Button v-if="profile.phone_number" as="a" href="//wa.me/<number>" target="_blank" severity="warn" label="Enviar mensagem no Whatsapp" icon="pi pi-whatsapp" icon-pos="right"></Button>
+            <button v-if="profile.phone_number" as="a" href="//wa.me/<number>" target="_blank" severity="warn" label="Enviar mensagem no Whatsapp" icon="pi pi-whatsapp" icon-pos="right"></button>
           </div>
         </div>
 
-        <Button label="Marcar horário" v-if="dateSelected?.hours" @click="handleScheduleDate"></Button>
+        <button label="Marcar horário" v-if="dateSelected?.hours" @click="handleScheduleDate"></button>
     </div>
 
     <Toast/>

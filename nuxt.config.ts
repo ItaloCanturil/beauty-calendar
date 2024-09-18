@@ -1,5 +1,3 @@
-import path from 'path'
-
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
@@ -15,17 +13,10 @@ export default defineNuxtConfig({
   },
   modules: [
     '@nuxtjs/tailwindcss',
-    '@primevue/nuxt-module',
     '@pinia/nuxt',
     "@nuxtjs/supabase",
     '@vueuse/nuxt'
   ],
-  primevue: {
-    options: {
-        unstyled: true
-    },
-    importPT: { from: path.resolve(__dirname, './presets/aura/') }
-  },
   pinia: {
     storesDirs: ['./stores/**', './custom-folder/stores/**'],
   },

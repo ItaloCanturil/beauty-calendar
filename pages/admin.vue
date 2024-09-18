@@ -17,7 +17,7 @@
       </div>
 
       
-      <Button label="Adicionar" type="button" severity="secondary" raised @click="handleAdd" :disabled="!isValid" />
+      <button label="Adicionar" type="button" severity="secondary" raised @click="handleAdd" :disabled="!isValid" />
     </div>
 
     <div class="mt-4 w-full">
@@ -28,12 +28,12 @@
           <div>{{ formatDate(dates.available_date)  }}</div>
           <div>{{ dates.available_time  }}</div>
 
-          <Button label="X" rounded type="button" severity="danger" @click="useAdmin.removeDate(idx)"></Button>
+          <button label="X" rounded type="button" severity="danger" @click="useAdmin.removeDate(idx)"></button>
         </li>
       </ul>
     </div>
 
-    <Button class="self-center justify-self-center" v-if="dateAvailabe.length > 0" @click="saveDates" label="Salvar" type="submit" severity="success" icon="pi pi-check" icon-pos="right"></Button>
+    <button class="self-center justify-self-center" v-if="dateAvailabe.length > 0" @click="saveDates" label="Salvar" type="submit" severity="success" icon="pi pi-check" icon-pos="right"></button>
 
     <Toast/>
     <ConfirmDialog/>
@@ -44,7 +44,7 @@
 <script setup lang="ts">
 import { formatDate } from '#imports';
 import DatePicker from 'primevue/datepicker';
-import Button from 'primevue/button';
+import button from 'primevue/button';
 import Toast from 'primevue/toast';
 
 definePageMeta({
