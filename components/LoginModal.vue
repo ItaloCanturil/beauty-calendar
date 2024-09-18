@@ -40,11 +40,6 @@ const loginWithProvider = async () => {
     }
   })
 
-  if (data) {
-    console.log("🚀 ~ loginWithProvider ~ data:", data)
-    // route.push('/admin')
-  }
-
   if(error){
     throw createError({
       message: error.message

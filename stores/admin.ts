@@ -18,27 +18,6 @@ export const useAdminStore = defineStore('admin', () => {
     }
   }
 
-  // async function handleSave(dates: IDate[]) {
-  //   try {
-  //     console.log("🚀 ~ handleSave ~ dates:", dates)
-  //     const res = await useFetch('/api/v1/dates', {
-  //       method: 'post',
-  //       body: {
-  //         dates: dates,
-  //       }
-  //     })
-
-
-  //     dateAvailable.value = [];
-
-  //     return res 
-  //   } catch (err) {
-  //     if (err) {
-  //       throw createError (err)
-  //     }
-  //   }
-  // }
-
   const existsDate = (available_date: string, available_time: string) => {
     return dateAvailable.value.some(item => {
       return formatDate(item.available_date) === formatDate(available_date) && item.available_time === formatHour(available_time)
