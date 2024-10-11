@@ -1,39 +1,39 @@
 <template>
-  <div class="grid grid-rows-3 h-full py-4">
-    <div class="flex flex-col items-center self-center">
-      <h1>Selecione as datas disponíveis:</h1>
+  <div class="grid grid-rows-3 h-full py-4 px-2">
+    <div class="flex flex-col">
+      <Onboarding
+        title="Disponibilidade"
+        guide="Adicione abaixo suas horas e dias disponíveis"
+      />
 
-      <div class="flex flex-col gap-2 justify-center">
-
+      <div class="flex flex-col gap-4 justify-center mt-5">
         <DatePicker v-model="available_date" date-format="dd/mm/yy" />
         <Transition>
           <DatePicker v-if="available_date" v-model="available_time" timeOnly fluid/>
         </Transition>
-
       </div>
 
-      <div class="mt-2 text-xs text-gray-500">
+      <div class="mt-2 text-xs text-gray-500 self-center">
         Um dia e hora por vez
       </div>
 
       
-      <button label="Adicionar" type="button" severity="secondary" raised @click="handleAdd" :disabled="!isValid" />
+      <Button class="w-28 self-center" label="Adicionar" type="button" severity="secondary" raised @click="handleAdd" :disabled="!isValid"></Button>
     </div>
 
-    <div class="mt-4 w-full">
-      Horas selecionadas:
+    <div class="mt-auto w-full">
+      Pré-visualização das horas:
 
       <ul v-for="(dates, idx) in dateAvailabe" :key="dates.available_time">
-        <li class="flex items-center justify-between">
-          <div>{{ formatDate(dates.available_date)  }}</div>
-          <div>{{ dates.available_time  }}</div>
+        <li class="flex items-center gap-3 my-2">
+          <div>{{ `${formatDate(dates.available_date)}, ${dates.available_time}`  }}</div>
 
-          <button label="X" rounded type="button" severity="danger" @click="useAdmin.removeDate(idx)"></button>
+          <Button icon="pi pi-times-circle" rounded type="button" severity="danger" @click="useAdmin.removeDate(idx)"></Button>
         </li>
       </ul>
     </div>
 
-    <button class="self-center justify-self-center" v-if="dateAvailabe.length > 0" @click="saveDates" label="Salvar" type="submit" severity="success" icon="pi pi-check" icon-pos="right"></button>
+    <Button class="self-center justify-self-center" v-if="dateAvailabe.length > 0" @click="saveDates" label="Salvar" type="submit" severity="success" icon="pi pi-check" icon-pos="right"></Button>
 
     <Toast/>
     <ConfirmDialog/>
@@ -43,19 +43,15 @@
 
 <script setup lang="ts">
 import { formatDate } from '#imports';
-import DatePicker from 'primevue/datepicker';
-import button from 'primevue/button';
-import Toast from 'primevue/toast';
 
 definePageMeta({
-  middleware: 'auth'
+  middleware: 'auth',
+  layout: 'admin'
 })
 
 defineOptions({
   name: 'admin'
 })
-const toast = useToast();
-const confirm = useConfirm();
 const useAdmin = useAdminStore();
 const client = useSupabaseClient();
 const user = useSupabaseUser();
@@ -68,13 +64,6 @@ const dateAvailabe = computed(() => useAdmin.dateAvailable);
 
 const handleAdd = () => {
   if (hasError()) {
-    confirm.require({
-      message: 'Já existe esse horário, adicione um diferente',
-      position: 'center',
-      accept: () => confirm.close(),
-      acceptClass: 'hidden',
-      rejectClass: 'hidden',
-    })
 
     available_date.value = '';
     available_time.value = '';
@@ -100,7 +89,6 @@ const addDate = () => {
   available_date.value = '';
   available_time.value = '';
 
-  toast.add({ severity: 'success', detail: 'Adicionado', life: 1500})
 }
 
 const hasError = () => {
@@ -128,8 +116,6 @@ const saveDates = async () => {
     })
 
     if (res) {
-      toast.add({ severity: 'success', detail: 'Salvo com sucesso', life: 1500});
-
 
       useAdmin.clearDates()
     }

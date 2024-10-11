@@ -1,3 +1,5 @@
+import Aura from '@primevue/themes/aura';
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
@@ -15,8 +17,12 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@pinia/nuxt',
     "@nuxtjs/supabase",
-    '@vueuse/nuxt'
+    '@vueuse/nuxt',
+    '@primevue/nuxt-module'
   ],
+  primevue: {
+    importTheme: { from: './assets/css/preset.ts'},
+  },
   pinia: {
     storesDirs: ['./stores/**', './custom-folder/stores/**'],
   },
