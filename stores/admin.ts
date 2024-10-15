@@ -4,7 +4,7 @@ import type { IDate } from "./models/admin"
 export const useAdminStore = defineStore('admin', () => {
   const supabase = useSupabaseClient();
   const dateAvailable = ref<IDate[]>([]);
-  const datesById = ref<IDate[]>([]);
+  const datesById = ref<GroupedDateTimeEntry[]>([]);
 
   async function getAvailableDate (id: string) {
     try {

@@ -4,15 +4,26 @@ export const useAuth = () => {
 
   const isLogged = computed(() => user.value !== null);
 
+  const getURL = () => {
+    const redirectLocal = localStorage.getItem('redirectTo');
+
+    let url =
+      process?.env?.NEXT_PUBLIC_SITE_URL ?? // Set this to your site URL in production env.
+      process?.env?.NEXT_PUBLIC_VERCEL_URL ?? // Automatically set by Vercel.
+      `http://localhost:3000${redirectLocal}` ??
+      'http://localhost:3000/'
+    // Make sure to include `https://` when not localhost.
+    url = url.startsWith('http') ? url : `https://${url}`
+    // Make sure to include a trailing `/`.
+    // url = url.endsWith('/') ? url : `${url}/`
+    return url
+  }
 
   const loginWithProvider =  async () => {
     const { data, error } = await client.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: '/admin',
-        queryParams: {
-          client: 'admin',
-        },
+        redirectTo: getURL(),
         scopes: 'https://www.googleapis.com/auth/calendar.events'
       }
     })

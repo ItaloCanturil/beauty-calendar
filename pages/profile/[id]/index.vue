@@ -6,6 +6,17 @@
         guide="Adicione abaixo suas horas e dias disponíveis"
       />
 
+      <div class="flex items-center gap-2 px-5 py-10 bg-gray-50 rounded-lg mt-2" v-if="isLogged">
+        <span>Envie o seguinte link para o cliente:</span>
+
+        <code>{{ clientLink }}</code>
+
+        <Button
+          label="Copiar link"
+          @click="copy(clientLink)"
+        />
+      </div>
+
       <div class="flex flex-col gap-4 justify-center mt-5">
         <DatePicker v-model="available_date" date-format="dd/mm/yy" />
         <Transition>
@@ -52,28 +63,33 @@ definePageMeta({
 defineOptions({
   name: 'admin'
 })
+
 const useAdmin = useAdminStore();
-const client = useSupabaseClient();
+const useProfile = useProfileStore();
+const adminId = computed(() => useProfile.profile?.id);
+const clientLink = computed(() => `${window.origin}/available/${adminId.value}`);
+const { copy } = useClipboard();
+const { isLogged } = useAuth();
 const user = useSupabaseUser();
 
 // models
 const showLogin = ref<boolean>(false);
-const available_date = ref<string>('');
-const available_time = ref<string>('');
+const available_date = ref(null);
+const available_time = ref(null);
 const dateAvailabe = computed(() => useAdmin.dateAvailable);
 
 const handleAdd = () => {
   if (hasError()) {
 
-    available_date.value = '';
-    available_time.value = '';
+    available_date.value = null;
+    available_time.value = null;
   
     return;
   }
   
   if(!user.value) {
-    available_date.value = '';
-    available_time.value = '';
+    available_date.value = null;
+    available_time.value = null;
     showLogin.value = true
   
     return;
@@ -86,8 +102,8 @@ const addDate = () => {
   
   useAdmin.pushDate({available_date: available_date.value, available_time: formatHour(available_time.value), admin_id: user.value.id});
 
-  available_date.value = '';
-  available_time.value = '';
+  available_date.value = null;
+  available_time.value = null;
 
 }
 
