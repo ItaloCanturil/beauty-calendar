@@ -31,5 +31,8 @@ export default defineNuxtConfig({
     key: process.env.SUPABASE_KEY,
     serviceKey: process.env.SUPABASE_SERVICE_KEY,
     redirect: false
+  },
+  runtimeConfig: {
+    urlSite: process.env.NUXT_PUBLIC_VERCEL_URL
   }
 })
