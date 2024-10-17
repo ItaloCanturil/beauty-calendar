@@ -3,7 +3,16 @@
   const useProfile = useProfileStore();
   const profileId = computed(() => useProfile.profile!.id);
 
+  const userRole = localStorage.getItem('userRole');
   const { loginWithProvider } = useAuth();
+
+  onMounted(() => {
+    if(!userRole) {
+      localStorage.setItem('userRole','admin');
+    }
+
+    if (userRole === 'client') router.push('/available/');
+  })
 </script>
 
 <template>

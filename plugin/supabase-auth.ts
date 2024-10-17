@@ -5,14 +5,13 @@ export default defineNuxtPlugin(async () => {
 
   supabase.auth.onAuthStateChange(async (event, session) => {
     if (event === 'SIGNED_IN' && session) {
-      const authRoute = localStorage.getItem('authRoute');
-      const role = authRoute === '/admin' ? 'admin' : 'client';
+      const userRole = localStorage.getItem('userRole');
 
       const user = session?.user;
 
       const {error} = await supabase
         .from('profiles')
-        .update({ role })
+        .update({ userRole })
         .eq('id', user?.id)
       
       if (error) {
@@ -21,7 +20,7 @@ export default defineNuxtPlugin(async () => {
         })
       }
 
-      localStorage.removeItem('authRoute');
+      localStorage.removeItem('userRole');
     }
   })
 })

@@ -6,6 +6,7 @@ definePageMeta({
 
 const { isLogged, loginWithProvider } = useAuth();
 const route = useRoute();
+const router = useRouter();
 const useProfile = useProfileStore();
 const useAdmin = useAdminStore();
 const useDate = useDateStore();
@@ -69,10 +70,17 @@ const clearDateSelect = () => {
 
 
 onMounted(() => {
-  console.log("🚀 ~ route:", dateAvailabe.value)
+  const userRole = localStorage.getItem('userRole');
+
   if (isLogged.value && paramsId) {
     useAdmin.getAvailableDate(paramsId);
   }
+
+  if(!userRole) {
+    localStorage.setItem('userRole','client');
+  }
+
+  if (userRole === 'admin') router.push('/');
 })
 </script>
 
