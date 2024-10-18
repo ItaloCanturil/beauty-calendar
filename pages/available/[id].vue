@@ -11,8 +11,6 @@ const useProfile = useProfileStore();
 const useAdmin = useAdminStore();
 const useDate = useDateStore();
 const paramsId = route.params.id as string;
-const date = ref(null);
-const today = new Date();
 
 type Hour = {
   date: string,
@@ -130,9 +128,11 @@ onMounted(() => {
     </div>
 
     <div v-if="!isLogged" class="flex flex-col items-center gap-2 h-full">
-      <div class="bg-gray-50 p-2 flex gap-x-2 rounded-xl">
+      <!-- <div class="bg-gray-50 p-2 flex gap-x-2 rounded-xl">
         <span class="font-semibold">Faça o login para visualizar os horários disponivéis</span>
-      </div>
+      </div> -->
+
+      <Message severity="warn">Faça o login para visualizar os horários disponivéis</Message>
       
       <Button
         class="self-center"

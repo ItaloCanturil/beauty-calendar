@@ -9,16 +9,16 @@
       <div class="flex items-center gap-2 px-5 py-10 bg-gray-50 rounded-lg mt-2" v-if="isLogged">
         <span>Envie o seguinte link para o cliente:</span>
 
-        <code>{{ clientLink }}</code>
+        <Message severity="info">{{ clientLink + adminId }}</Message>
 
         <Button
           label="Copiar link"
-          @click="copy(clientLink)"
+          @click="copy(clientLink + adminId)"
         />
       </div>
 
       <div class="flex flex-col gap-4 justify-center mt-5">
-        <DatePicker v-model="available_date" date-format="dd/mm/yy" />
+        <DatePicker v-model="available_date" date-format="dd/mm/yy" :min-date="minDate"/>
         <Transition>
           <DatePicker v-if="available_date" v-model="available_time" timeOnly fluid/>
         </Transition>
@@ -67,10 +67,13 @@ defineOptions({
 const useAdmin = useAdminStore();
 const useProfile = useProfileStore();
 const adminId = computed(() => useProfile.profile?.id);
-const clientLink = computed(() => `${window.origin}/available/${adminId.value}`);
+// const clientLink = computed(() => `${window.origin}/available/${adminId.value}`);
+const clientLink = ref('');
 const { copy } = useClipboard();
 const { isLogged } = useAuth();
 const user = useSupabaseUser();
+const toast = useToast();
+const minDate = new Date();
 
 // models
 const showLogin = ref<boolean>(false);
@@ -109,11 +112,10 @@ const addDate = () => {
 
 const hasError = () => {
   /* TODO adicionar novos erros
-    - [ ] não se pode adicionar datas passadas
+    - [x] não se pode adicionar datas passadas
     - [ ] só se pode adicionar se o usuário for admin
   */
 
-  // const pastTime = 
 
   const exists = useAdmin.existsDate(available_date.value, available_time.value)
 
@@ -121,6 +123,10 @@ const hasError = () => {
 }
 
 const isValid = computed(() => available_date.value && available_time.value);
+
+const handleCopy = () => {
+
+}
 
 const saveDates = async () => {
   try {
@@ -132,8 +138,13 @@ const saveDates = async () => {
     })
 
     if (res) {
+      useAdmin.clearDates();
 
-      useAdmin.clearDates()
+      toast.add({
+        severity: 'success',
+        summary: 'Horário salvo',
+        life: 3000
+      })
     }
   } catch (error: any) {
     createError({
@@ -142,6 +153,10 @@ const saveDates = async () => {
     })
   }
 };
+
+onMounted(() => {
+  clientLink.value = `${window.origin}/available/`
+})
 </script>
 
 <style scoped>
