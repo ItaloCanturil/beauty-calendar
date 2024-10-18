@@ -3,10 +3,10 @@
   const useProfile = useProfileStore();
   const profileId = computed(() => useProfile.profile!.id);
 
-  const userRole = localStorage.getItem('userRole');
   const { loginWithProvider } = useAuth();
-
+  
   onMounted(() => {
+    const userRole = localStorage.getItem('userRole');
     if(!userRole) {
       localStorage.setItem('userRole','admin');
     }
