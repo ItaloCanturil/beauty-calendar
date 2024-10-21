@@ -1,13 +1,13 @@
 <template>
-  <div class="grid grid-rows-3 h-full py-4 px-2">
+  <div class="h-full py-4 px-2" :class="{ 'grid grid-rows-3': isMobile, 'flex flex-col gap-4 ': !isMobile }">
     <div class="flex flex-col">
       <Onboarding
         title="Disponibilidade"
         guide="Adicione abaixo suas horas e dias disponíveis"
       />
 
-      <div class="flex items-center gap-2 px-5 py-10 bg-gray-50 rounded-lg mt-2" v-if="isLogged">
-        <span>Envie o seguinte link para o cliente:</span>
+      <div class="flex flex-col gap-3 px-5 py-10 bg-gray-50 rounded-lg mt-2" v-if="isLogged">
+        <span>Copie e envie o seguinte link para o cliente:</span>
 
         <Message severity="info">{{ clientLink + adminId }}</Message>
 
@@ -54,6 +54,7 @@
 
 <script setup lang="ts">
 import { formatDate } from '#imports';
+import { breakpointsTailwind, useBreakpoints } from '@vueuse/core';
 
 definePageMeta({
   middleware: 'auth',
@@ -80,6 +81,8 @@ const showLogin = ref<boolean>(false);
 const available_date = ref(null);
 const available_time = ref(null);
 const dateAvailabe = computed(() => useAdmin.dateAvailable);
+const { smallerOrEqual } = useBreakpoints(breakpointsTailwind);
+const isMobile = smallerOrEqual('md')
 
 const handleAdd = () => {
   if (hasError()) {
