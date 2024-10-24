@@ -21,7 +21,8 @@ export default defineEventHandler(async (event) => {
     const { data, error } = await supabase
       .from('date_available')
       .select('*')
-      .eq('admin_id', id);
+      .eq('admin_id', id)
+      .eq('schedule', 'open');
 
     if (error) throw createError({ statusCode: 500 , statusMessage: error.message });
 

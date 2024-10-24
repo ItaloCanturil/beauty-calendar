@@ -1,8 +1,9 @@
-import type { DateScheduleEvent, ScheduleEventParam } from "./models/date"
+import type { DateScheduleEvent, ScheduleEventParam, UserTokens } from "./models/date"
 
 export const useDateStore = defineStore('date', () => {
 
   const scheduleDate = async (param: ScheduleEventParam, accessToken: string) => {
+    const startDate = new Date(`${param.date} ${param.hours} UTC-3`);
     const [hours, min, seconds] = param.hours.split(':');
     const date = new Date();
     date.setHours(+hours + 1, Number(min), Number(seconds));
@@ -28,12 +29,19 @@ export const useDateStore = defineStore('date', () => {
         ]
     }
 
+    const userTokens: UserTokens = {
+      admin_id: param.tokens.admin_id,
+      client_id: param.tokens.client_id
+    }
+
     try {
       const res = await $fetch('/api/v1/events/create', {
         method: 'post',
         body: {
           accessToken,
-          eventDetails
+          eventDetails,
+          userTokens,
+          dateAvailableId: param.dateAvailableId
         }
       })
 
@@ -44,6 +52,7 @@ export const useDateStore = defineStore('date', () => {
           data: res
         })
       }
+      console.log("🚀 ~ scheduleDate ~ res:", res)
 
       return res
     } catch (error) {

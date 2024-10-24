@@ -4,6 +4,7 @@ import { useStorage } from "@vueuse/core";
 export const useProfileStore = defineStore('profile', () => {
   
   const profile = ref<IProfile>();
+  const adminProfile = ref<IProfile>();
   const profiles = ref<IProfile[]>();
   
   const session = useSupabaseSession();
@@ -22,6 +23,22 @@ export const useProfileStore = defineStore('profile', () => {
       })
 
       profile.value = data
+
+      return data
+    } catch (error: any) {
+      createError({
+        message: error.message
+      })
+    }
+  };
+
+  const getAdminProfile = async (id: string) => {
+    try {
+      const data = await $fetch<IProfile>(`/api/v1/profile?id=${id}`, {
+        method: 'get',
+      })
+
+      adminProfile.value = data
 
       return data
     } catch (error: any) {
@@ -50,8 +67,10 @@ export const useProfileStore = defineStore('profile', () => {
   return {
     profile,
     profiles,
+    adminProfile,
     getProfile,
     getAllProfiles,
+    getAdminProfile,
     sessionProfile
   }
 })

@@ -4,17 +4,19 @@ definePageMeta({
   middleware: 'auth'
 })
 
-const { isLogged, loginWithProvider } = useAuth();
+const { isLogged, loginWithProvider, logout } = useAuth();
 const route = useRoute();
 const router = useRouter();
 const useProfile = useProfileStore();
 const useAdmin = useAdminStore();
 const useDate = useDateStore();
+const toast = useToast();
 const paramsId = route.params.id as string;
 
 type Hour = {
   date: string,
   hours: string,
+  id?: number
 }
 
 
@@ -41,15 +43,30 @@ const handleScheduleDate = async () => {
       hours: dateSelected.value!.hours,
       location: 'Google Meet',
       client_email: useProfile.profile!.email ,
-      admin_email: useProfile.profiles![0].email as string
+      admin_email: useProfile.adminProfile!.email,
+      tokens: {
+        admin_id: useProfile.adminProfile!.id,
+        client_id: useProfile.profile!.id,
+      },
+      dateAvailableId: dateSelected.value!.id as number
     }
     
   try {
-    if(useProfile.sessionProfile?.provider_token) {
-      await useDate.scheduleDate(dateParam, useProfile.sessionProfile?.provider_token);
+    if(!useProfile.sessionProfile?.provider_token) {
+      logout()
     }
+    const res = await useDate.scheduleDate(dateParam, useProfile.sessionProfile.provider_token);
+    console.log("🚀 ~ handleScheduleDate ~ res:", res)
 
     clearDateSelect();
+
+    toast.add({
+    severity: 'success',
+    summary: 'Horário agendado',
+    life: 3000
+    })
+
+    return;
 
   } catch (error: any) {
     createError({
@@ -67,11 +84,12 @@ const clearDateSelect = () => {
 }
 
 
-onMounted(() => {
+onMounted(async () => {
   const userRole = localStorage.getItem('userRole');
 
   if (isLogged.value && paramsId) {
-    useAdmin.getAvailableDate(paramsId);
+    await useAdmin.getAvailableDate(paramsId);
+    await useProfile.getAdminProfile(paramsId);
   }
 
   if(!userRole) {
@@ -92,15 +110,18 @@ onMounted(() => {
 
       <div class="bg-gray-50 p-2 flex gap-x-2 rounded-xl overflow-x-auto" v-if="dateAvailabe.length > 0">
         <div class="day flex flex-col gap-y-2 p-2" v-for="(date, index) in dateAvailabe" :key="index">
-          <div class="bg-gray-200 rounded-lg px-2 py-4"
-          :class="{ 'bg-violet-300': dateSelected?.date === date.available_date }"
-          >{{ formatDate(date.available_date)}}</div>
+          <div 
+            class="bg-gray-200 rounded-lg px-2 py-4"
+            :class="{ 'bg-violet-300': dateSelected?.date === date.available_date }"
+          >
+            {{ formatDateWithHour(date.available_date) }}
+          </div>
           <ul>
             <li v-for="(hour, hourIndex) in date.available_times" :key="hourIndex" class="flex flex-col items-center">
               <button :for="hour"
               class="bg-gray-200 my-1 rounded-lg px-2 py-1 curso"
               :class="{ 'bg-violet-300': dateSelected?.hours === hour}"
-              @click.stop="() => handleActive({date: date.available_date, hours: hour})"
+              @click.stop="() => handleActive({date: date.available_date, hours: hour, id: date.id})"
               >
                 {{ hour }}
 
@@ -140,5 +161,7 @@ onMounted(() => {
         @click="loginWithProvider"
       />
     </div>
+
+    <Toast/>
   </div>
 </template>

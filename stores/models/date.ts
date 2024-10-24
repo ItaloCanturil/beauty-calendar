@@ -24,4 +24,20 @@ export type ScheduleEventParam = {
   hours: string,
   admin_email: string,
   client_email: string,
+  tokens: UserTokens,
+  dateAvailableId: number
+}
+
+export type UserTokens = {
+  admin_id: string,
+  client_id: string,
+}
+
+export type DateAvailable = {
+  id:             number;
+  created_at:     string;
+  available_date: Date;
+  available_time: string;
+  admin_id:       string;
+  schedule:       boolean;
 }

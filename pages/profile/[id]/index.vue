@@ -9,7 +9,7 @@
       <div class="flex flex-col gap-3 px-5 py-10 bg-gray-50 rounded-lg mt-2" v-if="isLogged">
         <span>Copie e envie o seguinte link para o cliente:</span>
 
-        <Message severity="info">{{ clientLink + adminId }}</Message>
+        <Message class="w-80" severity="info">{{ clientLink + adminId }}</Message>
 
         <Button
           label="Copiar link"
@@ -32,7 +32,7 @@
       <Button class="w-28 self-center" label="Adicionar" type="button" severity="secondary" raised @click="handleAdd" :disabled="!isValid"></Button>
     </div>
 
-    <div class="mt-auto w-full">
+    <div class="w-full">
       Pré-visualização das horas:
 
       <ul v-for="(dates, idx) in dateAvailabe" :key="dates.available_time">
@@ -68,13 +68,12 @@ defineOptions({
 const useAdmin = useAdminStore();
 const useProfile = useProfileStore();
 const adminId = computed(() => useProfile.profile?.id);
-// const clientLink = computed(() => `${window.origin}/available/${adminId.value}`);
-const clientLink = ref('');
 const { copy } = useClipboard();
 const { isLogged } = useAuth();
 const user = useSupabaseUser();
 const toast = useToast();
 const minDate = new Date();
+const clientLink = ref('');
 
 // models
 const showLogin = ref<boolean>(false);
@@ -106,7 +105,7 @@ const handleAdd = () => {
 
 const addDate = () => {
   
-  useAdmin.pushDate({available_date: available_date.value, available_time: formatHour(available_time.value), admin_id: user.value.id});
+  useAdmin.pushDate({available_date: available_date.value, available_time: formatHour(available_time.value), admin_id: user.value.id, schedule: 'open'});
 
   available_date.value = null;
   available_time.value = null;
@@ -116,11 +115,12 @@ const addDate = () => {
 const hasError = () => {
   /* TODO adicionar novos erros
     - [x] não se pode adicionar datas passadas
+    - [ ] não se pode adicionar horas passadas
     - [ ] só se pode adicionar se o usuário for admin
   */
 
 
-  const exists = useAdmin.existsDate(available_date.value, available_time.value)
+  const exists = useAdmin.existsDate(available_date.value, available_time.value);
 
   return exists
 }
