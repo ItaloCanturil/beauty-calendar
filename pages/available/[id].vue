@@ -56,7 +56,6 @@ const handleScheduleDate = async () => {
       logout()
     }
     const res = await useDate.scheduleDate(dateParam, useProfile.sessionProfile.provider_token);
-    console.log("🚀 ~ handleScheduleDate ~ res:", res)
 
     clearDateSelect();
 

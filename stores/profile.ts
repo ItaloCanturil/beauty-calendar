@@ -16,7 +16,6 @@ export const useProfileStore = defineStore('profile', () => {
 
     return session
   }
-  console.log("🚀 ~ handleTokens ~ handleTokens:", handleTokens().value)
   const sessionProfile = handleTokens().value;
 
   const getProfile = async (id: string) => {

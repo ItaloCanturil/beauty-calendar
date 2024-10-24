@@ -52,7 +52,6 @@ export const useDateStore = defineStore('date', () => {
           data: res
         })
       }
-      console.log("🚀 ~ scheduleDate ~ res:", res)
 
       return res
     } catch (error) {

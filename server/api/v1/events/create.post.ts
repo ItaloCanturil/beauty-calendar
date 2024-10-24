@@ -68,7 +68,6 @@ export default defineEventHandler(async (event) => {
         statusMessage: 'Failed to create event',  
       })
     }
-    console.log("🚀 ~ defineEventHandler ~ response:", response)
     
     return {
       statusCode: 201,

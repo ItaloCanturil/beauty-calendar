@@ -25,11 +25,8 @@ export const useAdminStore = defineStore('admin', () => {
   };
 
   const pastHour = (available_time: string) => {
-    console.log("🚀 ~ pastHour ~ available_time:", available_time)
     const now = new Date().getHours();
-    console.log("🚀 ~ pastHour ~ now:", now)
     const min = new Date().getMinutes();
-    console.log("🚀 ~ pastHour ~ min:", min)
 
     return `${now}:${min}` == available_time;
   };

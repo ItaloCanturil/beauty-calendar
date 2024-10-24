@@ -7,7 +7,6 @@ const profileId = computed(() => useProfile.profile?.id);
 
 const { smallerOrEqual } = useBreakpoints(breakpointsTailwind);
 const isMobile = smallerOrEqual('md')
-console.log("🚀 ~ isMobile:", isMobile)
 const user = useSupabaseUser();
 const showMenu = ref<boolean>(false);
 
