@@ -48,6 +48,7 @@ export const useAuth = () => {
 
   const logout = async () => {
     try {
+      localStorage.clear();
       let { error } = await client.auth.signOut();
   
       if (error) {
