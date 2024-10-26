@@ -10,9 +10,10 @@ export const useAuth = () => {
     const redirectLocal = localStorage.getItem('redirectTo');
 
     let url =
-    `${runtimeConfig.urlSite}${{redirectLocal}}` ?? // Automatically set by Vercel.
-      `http://localhost:3000${redirectLocal}` ??
-      'http://localhost:3000/'
+      runtimeConfig.urlSite 
+      ? `${runtimeConfig.urlSite}${{redirectLocal}}`
+      : `http://localhost:3000${redirectLocal ?? '/'}`;
+
     // Make sure to include `https://` when not localhost.
     url = url.startsWith('http') ? url : `https://${url}`
     // Make sure to include a trailing `/`.
