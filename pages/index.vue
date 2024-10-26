@@ -2,16 +2,21 @@
   const router = useRouter();
   const useProfile = useProfileStore();
   const profileId = computed(() => useProfile.profile!.id);
-
+  const visible = ref(false);
+  
   const { loginWithProvider } = useAuth();
   
   onMounted(() => {
     const userRole = localStorage.getItem('userRole');
+    const redirectTo = localStorage.getItem('redirectTo');
     if(!userRole) {
       localStorage.setItem('userRole','admin');
     }
-
-    if (userRole === 'client') router.push('/available/');
+    
+    if (!redirectTo) visible.value = true;
+    
+    if (userRole === 'client' && redirectTo) router.push(redirectTo);
+    
   })
 </script>
 
@@ -21,6 +26,10 @@
       @login="loginWithProvider"
       @new="() => router.push(`/profile/${profileId}`)"
     />
+
+    <Dialog v-model:visible="visible" modal header="Não encontrado">
+      <span class="text-surface-500 dark:text-surface-400 block mb-8">Solicite o link ao profissional novamente</span>
+    </Dialog>
 
     <!-- <LoginModal :active="showLogin" @close="(boo) => showLogin = boo"/> -->
   </div>

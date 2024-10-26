@@ -34,6 +34,8 @@ export default defineNuxtConfig({
     types: './schema.ts'
   },
   runtimeConfig: {
-    urlSite: process.env.NUXT_PUBLIC_VERCEL_URL
+    public: {
+      urlSite: process.env.NUXT_PUBLIC_VERCEL_URL
+    }
   }
 })
