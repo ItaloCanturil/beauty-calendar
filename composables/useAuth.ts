@@ -10,8 +10,8 @@ export const useAuth = () => {
     const redirectLocal = localStorage.getItem('redirectTo');
     const origin = window.location.origin;
     let url =
-      runtimeConfig.public.urlSite === origin
-      ? `${runtimeConfig.public.urlSite}${{redirectLocal}}`
+      redirectLocal
+      ? `${origin}${{redirectLocal}}`
       : `http://localhost:3000${redirectLocal ?? '/'}`;
 
     // Make sure to include `https://` when not localhost.
