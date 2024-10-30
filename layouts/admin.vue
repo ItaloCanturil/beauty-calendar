@@ -60,6 +60,7 @@ onMounted(async () => {
       @logout="logout"
       @login="loginWithProvider"
       @update:visible="handleMenu"
+      @hours="router.push(`/profile/${profileId}/hours`)"
     />
     <div class="flex-1">
       <slot/>

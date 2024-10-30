@@ -9,6 +9,7 @@
   (e: 'new'): void;
   (e: 'login'): void;
   (e: 'logout'): void;
+  (e: 'hours'): void;
  }>()
 </script>
 
@@ -29,7 +30,7 @@
               </a>
           </li>
           <li>
-              <a v-ripple class="flex items-center cursor-pointer p-4 rounded text-surface-700 hover:bg-surface-100 dark:text-surface-0 dark:hover:bg-surface-800 duration-150 transition-colors p-ripple">
+              <a v-ripple class="flex items-center cursor-pointer p-4 rounded text-surface-700 hover:bg-surface-100 dark:text-surface-0 dark:hover:bg-surface-800 duration-150 transition-colors p-ripple" @click="emit('hours')">
                   <i class="pi pi-calendar-clock mr-2"></i>
                   <span class="font-medium">Horários</span>
               </a>
