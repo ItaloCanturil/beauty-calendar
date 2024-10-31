@@ -1,8 +1,10 @@
+import { get } from "@vueuse/core";
+
 export const useAuth = () => {
   const user = useSupabaseUser();
   const client = useSupabaseClient();
 
-  const isLogged = computed(() => user.value !== null);
+  const isLogged = computed(() => get(user) !== null);
 
   const runtimeConfig = useRuntimeConfig();
 

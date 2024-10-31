@@ -37,7 +37,7 @@ onMounted(async () => {
     <div class="flex items-center justify-between gap-2 px-3 py-2" v-if="isMobile">
       <div>
         <Button icon="pi pi-bars" @click="showMenu = true"/>
-        <span class="font-[800] text-l">💄Beauty</span>
+        <span class="font-[800] text-l" @click="() => router.push(`/profile/${profileId}`)">💄Beauty</span>
       </div>
 
       <Button
@@ -61,6 +61,7 @@ onMounted(async () => {
       @login="loginWithProvider"
       @update:visible="handleMenu"
       @hours="router.push(`/profile/${profileId}/hours`)"
+      @profile="router.push(`/profile/${profileId}`)"
     />
     <div class="flex-1">
       <slot/>

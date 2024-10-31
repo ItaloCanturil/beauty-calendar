@@ -1,6 +1,6 @@
 <template>
   <div class="h-screen mx-auto px-4 flex flex-col gap-4">
-      <Header @logout="logout" @login="loginWithProvider" @new="() => router.push(`/profile/${profileId}`)"></Header>
+      <Header @logout="logout" @login="loginWithProvider" @new="() => router.push(`/profile/${profileId}`)" @home="() => router.push(`/profile/${profileId}`)"></Header>
       <slot />
   </div>
 </template>

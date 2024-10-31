@@ -8,13 +8,14 @@ const emit = defineEmits<{
   (e: 'login'): void;
   (e: 'logout'): void;
   (e: 'new'): void;
+  (e: 'home'): void;
 }>();
 
 </script>
 
 <template>
   <header class="w-full flex justify-between items-center px-5 py-3 h-20 bg-gray-50">
-    <span class="font-[800] text-xl">💄Beauty</span>
+    <span class="font-[800] text-xl" @click.stop="() => emit('home')">💄Beauty</span>
 
     <div v-if="isLogged">
       <Button
