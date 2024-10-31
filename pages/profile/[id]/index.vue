@@ -9,11 +9,12 @@
       <div class="flex flex-col gap-3 px-5 py-10 bg-gray-50 rounded-lg mt-2" v-if="isLogged">
         <span>Copie e envie o seguinte link para o cliente:</span>
 
-        <Message class="w-80" severity="info">{{ clientLink + adminId }}</Message>
+        <InputText type="text" v-model="clientLink" filled/>
 
         <Button
           label="Copiar link"
-          @click="copy(clientLink + adminId)"
+          icon="pi pi-copy"
+          @click="copy(clientLink)"
         />
       </div>
 
@@ -156,6 +157,12 @@ const saveDates = async () => {
     })
   }
 };
+
+watchOnce(
+  adminId, () => {
+    clientLink.value = clientLink.value + adminId.value;
+  }
+)
 
 onMounted(() => {
   clientLink.value = `${window.origin}/available/`
