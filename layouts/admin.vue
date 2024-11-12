@@ -24,13 +24,14 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="w-full h-screen flex" :class="{ 'flex-col': !isMobile }">
+  <div class="w-full h-screen flex" :class="{ 'flex-col': isMobile }">
     <!-- <Header @logout="logout" @login="loginWithProvider" @new="() => router.push(`/profile/${profileId}`)"></Header> -->
     <MenuAdm
       @logout="logout"
       @login="loginWithProvider"
       @new="() => router.push(`/profile/${profileId}`)"
-      @profile="() => router.push(`/profile/${profileId}/new`)"
+      @hours="router.push(`/profile/${profileId}/hours`)"
+      @profile="router.push(`/profile/${profileId}`)"
       v-if="!isMobile"
     />
 

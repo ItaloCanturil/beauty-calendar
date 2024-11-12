@@ -42,7 +42,7 @@
               </a>
           </li>
         </ul>
-    </div>
+      </div>
 
     <template #footer>
       <div class="flex items-center gap-2">
