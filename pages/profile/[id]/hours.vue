@@ -52,11 +52,11 @@ onMounted(() => {
           </ul>
         </div>
       </div>
+      <div v-else class="mt-3 flex justify-center">
+        <span>Não existe horários agendados</span>
+      </div>
     </div>
 
-    <div v-else>
-      <span>Não existe horários agendados</span>
-    </div>
   </div>
 </template>
 

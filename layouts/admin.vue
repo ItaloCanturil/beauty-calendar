@@ -30,8 +30,9 @@ onMounted(async () => {
       @logout="logout"
       @login="loginWithProvider"
       @new="() => router.push(`/profile/${profileId}`)"
-      @hours="router.push(`/profile/${profileId}/hours`)"
       @profile="router.push(`/profile/${profileId}`)"
+      @hours="router.push(`/profile/${profileId}/hours`)"
+      @settings="router.push(`/profile/${profileId}/settings`)"
       v-if="!isMobile"
     />
 

@@ -5,6 +5,7 @@
  const username = computed(() => useProfile.profile ? useProfile.profile.full_name : '');
 
  const emit = defineEmits<{
+  (e: 'settings'): void;
   (e: 'profile'): void;
   (e: 'new'): void;
   (e: 'hours'): void;
@@ -56,7 +57,7 @@
             </a>
           </li>
           <li>
-              <a v-ripple class="flex items-center cursor-pointer p-2 rounded text-surface-700 hover:bg-surface-100 dark:text-surface-0 dark:hover:bg-surface-800 duration-150 transition-colors p-ripple">
+              <a v-ripple class="flex items-center cursor-pointer p-2 rounded text-surface-700 hover:bg-surface-100 dark:text-surface-0 dark:hover:bg-surface-800 duration-150 transition-colors p-ripple" @click="emit('settings')">
                   <i class="pi pi-cog mr-2"></i>
                   <span class="font-medium">Settings</span>
               </a>
