@@ -40,7 +40,7 @@ export default defineEventHandler(async (event) => {
   if (serviceTime) {
     const { data: serviceDate, error: serviceError } = await supabase
     .from('profiles')
-    .update({ service_time: phoneNumber })
+    .update({ service_time: serviceTime })
     .eq('id', id)
 
     if (serviceError) {

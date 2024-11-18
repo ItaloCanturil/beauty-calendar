@@ -1,4 +1,4 @@
-import type { IProfile } from "./models/admin";
+import type { IProfile, ProfileSettings } from "./models/admin";
 import { useStorage } from "@vueuse/core";
 
 export const useProfileStore = defineStore('profile', () => {
@@ -64,6 +64,23 @@ export const useProfileStore = defineStore('profile', () => {
         message: error.message
       })
     }
+  };
+
+  const updateProfile = async (param: ProfileSettings) => {
+    try {
+      const data = await $fetch('/api/v1/profile', {
+        method: 'POST',
+        body: {
+          id: param.id,
+          serviceTime: param.service_time,
+          phoneNumber: param.phone_number
+        }
+      })
+    } catch (error: any) {
+      createError({
+        message: error.message
+      })
+    }
   }
 
   return {
@@ -73,6 +90,7 @@ export const useProfileStore = defineStore('profile', () => {
     getProfile,
     getAllProfiles,
     getAdminProfile,
-    sessionProfile
+    sessionProfile,
+    updateProfile
   }
 })

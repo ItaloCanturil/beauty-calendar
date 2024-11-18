@@ -30,3 +30,9 @@ export interface IProfile {
   phone_number: string;
   email: string;
 }
+
+export type ProfileSettings = {
+  id: string;
+  phone_number?: string;
+  service_time?: string
+}

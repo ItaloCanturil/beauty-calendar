@@ -2,6 +2,8 @@
 import { zodResolver } from '@primevue/forms/resolvers/zod';
 import { z } from 'zod';
 
+const useProfile = useProfileStore();
+
 definePageMeta({
   middleware: 'auth',
   layout: 'admin'
@@ -20,11 +22,13 @@ const resolver = ref(zodResolver(
   })
 ));
 
-const onFormSubmit = ({ valid }: { valid: boolean }) => {
+const onFormSubmit = async ({ valid }: { valid: boolean }) => {
   if (valid) {
-    /* TODO
-      API Post to update the profile table
-     */
+    await useProfile.updateProfile({
+      id: useProfile.profile!.id,
+      service_time: serviceTime.value as unknown as string,
+      phone_number: phoneNumber.value
+    })
   }
 }
 </script>
@@ -34,7 +38,7 @@ const onFormSubmit = ({ valid }: { valid: boolean }) => {
     <Onboarding title="Configurações" guide=""/>
 
     <div class="mt-4">
-      <Form v-slot="$form" :resolver="resolver" class="flex flex-col gap-2 items-center">
+      <Form v-slot="$form" :resolver="resolver" @submit="onFormSubmit" class="flex flex-col gap-2 items-center">
         <div class="flex-auto">
           <label for="serviceTime">Tempo de serviço</label>
           <DatePicker v-model="serviceTime" timeOnly fluid iconDisplay="input" showIcon icon="pi pi-clock"></DatePicker>
@@ -48,7 +52,7 @@ const onFormSubmit = ({ valid }: { valid: boolean }) => {
         </div>
 
 
-        <Button type="submit" severity="secondary" label="Confirmar" />
+        <Button type="submit" severity="secondary" label="Confirmar"/>
       </Form>
     </div>
   </div>

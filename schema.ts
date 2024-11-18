@@ -146,6 +146,7 @@ export type Database = {
           google_oauth_token: Json | null
           id: string
           phone_number: string | null
+          service_time: string | null
           role: string
           updated_at: string | null
         }
@@ -157,6 +158,7 @@ export type Database = {
           google_oauth_token?: Json | null
           id: string
           phone_number?: string | null
+          service_time?: string | null
           role: string
           updated_at?: string | null
         }
@@ -168,6 +170,7 @@ export type Database = {
           google_oauth_token?: Json | null
           id?: string
           phone_number?: string | null
+          service_time?: string | null
           role?: string
           updated_at?: string | null
         }
