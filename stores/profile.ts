@@ -1,96 +1,88 @@
 import type { IProfile, ProfileSettings } from "./models/admin";
 import { useStorage } from "@vueuse/core";
 
-export const useProfileStore = defineStore('profile', () => {
-  
-  const profile = ref<IProfile>();
-  const adminProfile = ref<IProfile>();
-  const profiles = ref<IProfile[]>();
-  
-  const session = useSupabaseSession();
-  
-  const handleTokens = () => {
-    if (session) {
-      return useStorage('session_token', session.value)
-    }
+export const useProfileStore = defineStore("profile", () => {
+	const profile = ref<IProfile>();
+	const adminProfile = ref<IProfile>();
+	const profiles = ref<IProfile[]>();
 
-    return session
-  }
-  const sessionProfile = handleTokens().value;
+	const session = useSupabaseSession();
 
-  const getProfile = async (id: string) => {
-    try {
-      const data = await $fetch<IProfile>(`/api/v1/profile?id=${id}`, {
-        method: 'get',
-      })
+	const sessionProfile = session ? session : null;
 
-      profile.value = data
+	const getProfile = async (id: string) => {
+		try {
+			const data = await $fetch<IProfile>(`/api/v1/profile?id=${id}`, {
+				method: "get",
+			});
 
-      return data
-    } catch (error: any) {
-      createError({
-        message: error.message
-      })
-    }
-  };
+			profile.value = data;
 
-  const getAdminProfile = async (id: string) => {
-    try {
-      const data = await $fetch<IProfile>(`/api/v1/profile?id=${id}`, {
-        method: 'get',
-      })
+			return data;
+		} catch (error: any) {
+			throw createError({
+				message: error.message,
+			});
+		}
+	};
 
-      adminProfile.value = data
+	const getAdminProfile = async (id: string) => {
+		try {
+			const data = await $fetch<IProfile>(`/api/v1/profile?id=${id}`, {
+				method: "get",
+			});
 
-      return data
-    } catch (error: any) {
-      createError({
-        message: error.message
-      })
-    }
-  };
+			adminProfile.value = data;
 
-  const getAllProfiles = async () => {
-    try {
-      const data = await $fetch<IProfile[]>(`/api/v1/profile/list`, {
-        method: 'get',
-      })
+			return data;
+		} catch (error: any) {
+			throw createError({
+				message: error.message,
+			});
+		}
+	};
 
-      profiles.value = data
+	const getAllProfiles = async () => {
+		try {
+			const data = await $fetch<IProfile[]>(`/api/v1/profile/list`, {
+				method: "get",
+			});
 
-      return data
-    } catch (error: any) {
-      createError({
-        message: error.message
-      })
-    }
-  };
+			profiles.value = data;
 
-  const updateProfile = async (param: ProfileSettings) => {
-    try {
-      const data = await $fetch('/api/v1/profile', {
-        method: 'POST',
-        body: {
-          id: param.id,
-          serviceTime: param.service_time,
-          phoneNumber: param.phone_number
-        }
-      })
-    } catch (error: any) {
-      createError({
-        message: error.message
-      })
-    }
-  }
+			return data;
+		} catch (error: any) {
+			throw createError({
+				message: error.message,
+			});
+		}
+	};
 
-  return {
-    profile,
-    profiles,
-    adminProfile,
-    getProfile,
-    getAllProfiles,
-    getAdminProfile,
-    sessionProfile,
-    updateProfile
-  }
-})
+	const updateProfile = async (param: ProfileSettings) => {
+		try {
+			const data = await $fetch("/api/v1/profile", {
+				method: "POST",
+				body: {
+					id: param.id,
+					serviceTime: param.service_time,
+					phoneNumber: param.phone_number,
+				},
+			});
+		} catch (error: any) {
+			throw createError({
+				message: error.message,
+			});
+		}
+	};
+
+	return {
+		profile,
+		profiles,
+		adminProfile,
+		getProfile,
+		getAllProfiles,
+		getAdminProfile,
+		sessionProfile,
+		updateProfile,
+	};
+});
