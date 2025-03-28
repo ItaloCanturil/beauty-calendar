@@ -10,11 +10,13 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxt/image": "1.10.0",
     "@nuxtjs/supabase": "^1.5.0",
     "@pinia/nuxt": "^0.10.1",
     "@primevue/forms": "^4.3.2",
     "@primevue/themes": "^4.3.2",
     "googleapis": "^146.0.0",
+    "motion-v": "^0.13.1",
     "nuxt": "^3.16.0",
     "pinia": "^3.0.1",
     "primeicons": "^7.0.0",
