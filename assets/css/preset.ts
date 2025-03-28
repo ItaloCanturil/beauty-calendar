@@ -1,27 +1,27 @@
-import { definePreset } from '@primevue/themes';
-import Aura from '@primevue/themes/aura';
+import { definePreset } from "@primevue/themes";
+import Aura from "@primevue/themes/aura";
 
 const preset = definePreset(Aura, {
-  semantic: {
-    primary: {
-      50: '{indigo.50}',
-      100: '{indigo.100}',
-      200: '{indigo.200}',
-      300: '{indigo.300}',
-      400: '{indigo.400}',
-      500: '{indigo.500}',
-      600: '{indigo.600}',
-      700: '{indigo.700}',
-      800: '{indigo.800}',
-      900: '{indigo.900}',
-      950: '{indigo.950}'
-    }
-  }
+	semantic: {
+		primary: {
+			50: "#946DAD",
+			100: "#8F6AA8",
+			200: "#8A67A3",
+			300: "#85649E",
+			400: "#806199",
+			500: "#8E65AB",
+			600: "#7E5C99",
+			700: "#6E5287",
+			800: "#5E4975",
+			900: "#4E4063",
+			950: "#44395B",
+		},
+	},
 });
 
 export default {
-  preset,
-  options: {
-    darkModeSelector: '.p-dark'
-  }
+	preset,
+	options: {
+		darkModeSelector: ".p-dark",
+	},
 };
