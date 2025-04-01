@@ -1,8 +1,5 @@
 <template>
-  <div class="h-screen mx-auto px-4 flex flex-col gap-4">
-    <Header v-if="isLogged" @logout="logout" @login="loginWithProvider"
-      @new="() => router.push(`/profile/${profileId}`)" @home="() => router.push(`/profile/${profileId}`)" />
-
+  <div class="h-screen mx-auto px-4 flex flex-col gap-4 ">
 
     <MobileMenu :visible="showMenu" @logout="logout" @login="loginWithProvider" @update:visible="handleMenu"
       @hours="router.push(`/profile/${profileId}/hours`)" @profile="router.push(`/profile/${profileId}`)" />
@@ -28,10 +25,4 @@
   }
 
   const { loginWithProvider, isLogged, logout } = useAuth();
-
-  onMounted(async () => {
-    if (isLogged.value && user.value.id) {
-      await useProfile.getProfile(user?.value.id);
-    }
-  })
 </script>
