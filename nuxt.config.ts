@@ -18,7 +18,13 @@ export default defineNuxtConfig({
 		"@primevue/nuxt-module",
 		"@nuxt/image",
 		"motion-v/nuxt",
+		"@nuxtjs/google-fonts",
 	],
+	googleFonts: {
+		families: {
+			Inter: [400, 700],
+		},
+	},
 	primevue: {
 		importTheme: { from: "./assets/css/preset.ts" },
 	},

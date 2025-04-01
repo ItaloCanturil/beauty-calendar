@@ -11,6 +11,9 @@ importers:
       '@nuxt/image':
         specifier: 1.10.0
         version: 1.10.0(db0@0.3.1)(ioredis@5.6.0)(magicast@0.3.5)
+      '@nuxtjs/google-fonts':
+        specifier: 3.2.0
+        version: 3.2.0(magicast@0.3.5)
       '@nuxtjs/supabase':
         specifier: ^1.5.0
         version: 1.5.0
@@ -478,6 +481,9 @@ packages:
     engines: {node: ^18.12.0 || ^20.9.0 || >=22.0.0}
     peerDependencies:
       vue: ^3.3.4
+
+  '@nuxtjs/google-fonts@3.2.0':
+    resolution: {integrity: sha512-cGAjDJoeQ2jm6VJCo4AtSmKO6KjsbO9RSLj8q261fD0lMVNMZCxkCxBkg8L0/2Vfgp+5QBHWVXL71p1tiybJFw==}
 
   '@nuxtjs/supabase@1.5.0':
     resolution: {integrity: sha512-UD+JVifYvvAuiTxwenw3QR36PfJgvZBSV2vGUhhzviWYtzv9SkIZmHcyIp31JIyTAhqqEoi1cv4ctfFmAP3cGQ==}
@@ -1921,6 +1927,9 @@ packages:
   google-auth-library@9.15.1:
     resolution: {integrity: sha512-Jb6Z0+nvECVz+2lzSMt9u98UsoakXxA2HGHMCxh+so3n90XgYWkq5dur19JAJV7ONiJY22yBTyJB1TSkvPq9Ng==}
     engines: {node: '>=14'}
+
+  google-fonts-helper@3.7.3:
+    resolution: {integrity: sha512-dENZeK6RMvkCOFoKbLbS+pyoDgpmk4U6BYmfXnztMar2d8SjEG6valxql/Lkyi7bu5F+3FTdE+gAEYSYZ5zzMA==}
 
   google-logging-utils@0.0.2:
     resolution: {integrity: sha512-NEgUnEcBiP5HrPzufUkBzJOD/Sxsco3rLNo1F1TNf7ieU8ryUzBhqba8r756CjLX7rn3fHl6iLEwPYuqpoKgQQ==}
@@ -4324,6 +4333,14 @@ snapshots:
       - vue-tsc
       - yaml
 
+  '@nuxtjs/google-fonts@3.2.0(magicast@0.3.5)':
+    dependencies:
+      '@nuxt/kit': 3.16.1(magicast@0.3.5)
+      google-fonts-helper: 3.7.3
+      pathe: 1.1.2
+    transitivePeerDependencies:
+      - magicast
+
   '@nuxtjs/supabase@1.5.0':
     dependencies:
       '@supabase/ssr': 0.5.2(@supabase/supabase-js@2.49.3)
@@ -5801,6 +5818,13 @@ snapshots:
     transitivePeerDependencies:
       - encoding
       - supports-color
+
+  google-fonts-helper@3.7.3:
+    dependencies:
+      deepmerge: 4.3.1
+      hookable: 5.5.3
+      ofetch: 1.4.1
+      ufo: 1.5.4
 
   google-logging-utils@0.0.2: {}
 
