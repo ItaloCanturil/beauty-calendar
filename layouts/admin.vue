@@ -7,32 +7,26 @@
 
   const { smallerOrEqual } = useBreakpoints(breakpointsTailwind);
   const isMobile = smallerOrEqual('md')
-  const user = useSupabaseUser();
   const showMenu = ref<boolean>(false);
+  const username = computed(() => useProfile.profile?.full_name ? useProfile.profile.full_name : "Usuario")
 
   const { loginWithProvider, isLogged, logout } = useAuth();
 
   const handleMenu = (event: any) => {
     showMenu.value = event;
   }
-
-  onMounted(async () => {
-    if (user.value.id) {
-      await useProfile.getProfile(user.value.id);
-    }
-  })
 </script>
 
 <template>
-  <div class="w-full h-screen flex" :class="{ 'flex-col': isMobile }">
+  <div class="w-full h-screen flex flex-col" :class="{ 'flex-row': !isMobile }">
     <MenuAdm @logout="logout" @login="loginWithProvider" @new="() => router.push(`/dashboard`)"
       @profile="router.push(`/profile/${profileId}`)" @hours="router.push(`/profile/${profileId}/hours`)"
       @settings="router.push(`/profile/${profileId}/settings`)" v-if="!isMobile" />
 
-    <div class="flex items-center justify-between gap-2 px-3 py-2" v-if="isMobile">
-      <div>
-        <Button icon="pi pi-bars" @click="showMenu = true" />
-        <span class="font-[800] text-l" @click="() => router.push(`/profile/${profileId}`)">💄Beauty</span>
+    <div class="flex items-center justify-between gap-2 px-3" v-if="isMobile">
+      <Button icon="pi pi-bars" @click="showMenu = true" />
+      <div class="bg-slate-400 h-full rounded-b-lg p-4">
+        <span class="text-white" @click="() => router.push(`/profile/${profileId}`)">Olá, {{ username }}</span>
       </div>
 
       <Button v-if="isLogged" icon="pi pi-sign-in" text rounded @click="logout" />
