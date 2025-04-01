@@ -1,18 +1,27 @@
 import type { IProfile, ProfileSettings } from "./models/admin";
-import { useStorage } from "@vueuse/core";
+import { get, useStorage } from "@vueuse/core";
 
 export const useProfileStore = defineStore("profile", () => {
 	const profile = ref<IProfile>();
 	const adminProfile = ref<IProfile>();
 	const profiles = ref<IProfile[]>();
 
+	const user = useSupabaseUser();
 	const session = useSupabaseSession();
 
 	const sessionProfile = session ? session : null;
 
-	const getProfile = async (id: string) => {
+	const getProfile = async () => {
 		try {
-			const data = await $fetch<IProfile>(`/api/v1/profile?id=${id}`, {
+			if (get(user) == null) {
+				throw createError({
+					statusCode: 401,
+					message: "Não tem usuário logado",
+				});
+			}
+			const userId = get(user)?.id;
+
+			const data = await $fetch<IProfile>(`/api/v1/profile?id=${userId}`, {
 				method: "get",
 			});
 
@@ -21,7 +30,9 @@ export const useProfileStore = defineStore("profile", () => {
 			return data;
 		} catch (error: any) {
 			throw createError({
-				message: error.message,
+				message: "Erro na busca de conta",
+				cause: error,
+				statusCode: 404,
 			});
 		}
 	};
@@ -37,7 +48,9 @@ export const useProfileStore = defineStore("profile", () => {
 			return data;
 		} catch (error: any) {
 			throw createError({
-				message: error.message,
+				message: "Erro na busca por conta Admin",
+				cause: error,
+				statusCode: 404,
 			});
 		}
 	};
