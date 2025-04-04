@@ -1,38 +1,41 @@
 export type IDate = {
-  available_date: string;
-  available_time: string;
-  admin_id: string;
-  schedule: string;
+	available_date: string;
+	available_time: string;
+	admin_id: string;
+	schedule: string;
 };
 
 export type DateTimeEntry = {
-  id: number;
-  created_at: string;
-  available_date: string;
-  available_time: string;
-  admin_id: string;
-}
+	id: number;
+	created_at: string;
+	available_date: string;
+	available_time: string;
+	admin_id: string;
+};
 
 export type GroupedDateTimeEntry = {
-  id: number;
-  available_date: string;
-  available_times: string[];
-}
+	id: number;
+	available_date: string;
+	available_times: string[];
+};
 
 export interface IProfile {
-  id: string;
-  updated_at: null;
-  role: string;
-  google_oauth_token: null;
-  created_at: Date;
-  full_name: string;
-  avatar_url: string;
-  phone_number: string;
-  email: string;
+	id: string;
+	updated_at: null;
+	role: string;
+	google_oauth_token: null;
+	created_at: Date;
+	full_name: string;
+	avatar_url: string;
+	phone_number: string;
+	email: string;
+	service_time?: string;
 }
 
 export type ProfileSettings = {
-  id: string;
-  phone_number?: string;
-  service_time?: string
-}
+	id: string;
+	phone_number?: string;
+	service_time?: string;
+	role?: string;
+	email?: string;
+};
