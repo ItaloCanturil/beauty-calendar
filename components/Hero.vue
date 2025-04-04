@@ -3,7 +3,7 @@
 
 
   const emit = defineEmits<{
-    (e: 'login'): void;
+    (e: 'login', role: string): void;
   }>();
 </script>
 
@@ -25,7 +25,13 @@
         Simplifique o agendamento do seu negócio
       </h1>
 
-      <Button class="mt-5 mb-20 rounded-xl" label="Começar agora" icon="pi pi-plus" @click="() => emit('login')" />
+      <div class="flex flex-col gap-2 mb-20 mt-5 bg-zinc-50 p-4 rounded-xl">
+        <Button class="rounded-xl" label="Entrar como profissional" @click="() => emit('login', 'professional')" />
+
+        <span>ou</span>
+
+        <Button class="rounded-xl" label="Entrar como cliente" @click="() => emit('login', 'client')" />
+      </div>
     </motion.div>
   </div>
 

@@ -14,7 +14,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
 	];
 
 	if (adminRoutes.includes(to.name as string)) {
-		if (profile?.role !== "admin") {
+		if (profile?.role !== "professional") {
 			return navigateTo("/");
 		}
 	}

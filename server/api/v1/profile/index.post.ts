@@ -1,54 +1,46 @@
-import { serverSupabaseClient } from '#supabase/server';
-import { Database } from '~/schema';
+import { serverSupabaseClient } from "#supabase/server";
+import { Database } from "~/schema";
+import { camelToSnake } from "~/utils/formatData";
 
 export default defineEventHandler(async (event) => {
-  const supabase = await serverSupabaseClient<Database>(event);
-  const body = await readBody(event);
-  const { serviceTime, phoneNumber, id } = body;
+	const supabase = await serverSupabaseClient<Database>(event);
+	const body = await readBody(event);
+	const { id, ...rest } = body;
 
-  if (!id) {
-    throw createError({
-      statusCode: 400,
-      statusMessage: 'Bad Request',
-      message: 'Faltando o paramêtro id'
-    })
-  }
+	if (!id) {
+		throw createError({
+			statusCode: 400,
+			statusMessage: "Bad Request",
+			message: "Faltando o paramêtro id",
+		});
+	}
 
-  if (!serviceTime && !phoneNumber) {
-    throw createError({
-      statusCode: 400,
-      statusMessage: 'Bad Request',
-      message: 'Faltando o paramêtro'
-    })
-  }
+	const updateData = Object.keys(rest).reduce((acc, key) => {
+		const snakeKey = camelToSnake(key);
+		acc[snakeKey] = rest[key];
+		return acc;
+	}, {} as Record<string, any>);
 
-  if (phoneNumber) {
-    const { data: phoneDate, error: phoneError } = await supabase
-    .from('profiles')
-    .update({ phone_number: phoneNumber })
-    .eq('id', id)
+	if (Object.keys(updateData).length === 0) {
+		throw createError({
+			statusCode: 400,
+			message: "Nenhum campo fornecido para atualizar.",
+		});
+	}
 
-    if (phoneError) {
-      throw createError({
-        statusCode: 400,
-        statusMessage: 'Failed to update profile',
-        data: phoneError
-      })
-    }
-  }
+	const { data, error } = await supabase
+		.from("profiles")
+		.update(updateData)
+		.eq("id", id)
+		.select();
 
-  if (serviceTime) {
-    const { data: serviceDate, error: serviceError } = await supabase
-    .from('profiles')
-    .update({ service_time: serviceTime })
-    .eq('id', id)
+	if (error) {
+		throw createError({
+			statusCode: 400,
+			message: "Falha na atualização do usuário",
+			data: error,
+		});
+	}
 
-    if (serviceError) {
-      throw createError({
-        statusCode: 400,
-        statusMessage: 'Failed to update profile',
-        data: serviceError
-      })
-    }
-  }
-})
+	return data;
+});

@@ -31,7 +31,7 @@ export const useProfileStore = defineStore("profile", () => {
 		} catch (error: any) {
 			throw createError({
 				message: "Erro na busca de conta",
-				cause: error,
+				data: error,
 				statusCode: 404,
 			});
 		}
@@ -49,7 +49,7 @@ export const useProfileStore = defineStore("profile", () => {
 		} catch (error: any) {
 			throw createError({
 				message: "Erro na busca por conta Admin",
-				cause: error,
+				data: error,
 				statusCode: 404,
 			});
 		}
@@ -75,15 +75,16 @@ export const useProfileStore = defineStore("profile", () => {
 		try {
 			const data = await $fetch("/api/v1/profile", {
 				method: "POST",
-				body: {
-					id: param.id,
-					serviceTime: param.service_time,
-					phoneNumber: param.phone_number,
-				},
+				body: param,
 			});
-		} catch (error: any) {
-			throw createError({
-				message: error.message,
+
+			if (data) {
+				await getProfile();
+			}
+		} catch (error) {
+			return createError({
+				data: error,
+				message: "Erro na atualização do usuário",
 			});
 		}
 	};
