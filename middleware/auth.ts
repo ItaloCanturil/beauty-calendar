@@ -2,7 +2,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
 	const { isLogged } = useAuth();
 	const { profile } = useProfileStore();
 
-	if (!isLogged) {
+	if (!isLogged.value) {
 		return navigateTo("/");
 	}
 
