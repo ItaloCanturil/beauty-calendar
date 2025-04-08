@@ -1,3 +1,5 @@
+import tailwindcss from "@tailwindcss/vite";
+
 export default defineNuxtConfig({
 	compatibilityDate: "2024-04-03",
 	devtools: { enabled: false },
@@ -9,9 +11,9 @@ export default defineNuxtConfig({
 		vueJsx: {
 			mergeProps: true,
 		},
+		plugins: [tailwindcss()],
 	},
 	modules: [
-		"@nuxtjs/tailwindcss",
 		"@pinia/nuxt",
 		"@nuxtjs/supabase",
 		"@vueuse/nuxt",

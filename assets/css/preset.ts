@@ -16,6 +16,9 @@ const preset = definePreset(Aura, {
 			900: "#4E4063",
 			950: "#44395B",
 		},
+		secondary: {
+			500: "#EBEDD4",
+		},
 	},
 });
 

@@ -1,15 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
-@import 'primeicons/primeicons.css';
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
+@import "primeicons/primeicons.css";
+@import "tailwindcss";
 
 body {
-  font-family: "Plus Jakarta Sans", sans-serif;
-  font-optical-sizing: auto;
-  font-style: normal;
+	font-family: "Plus Jakarta Sans", sans-serif;
+	font-optical-sizing: auto;
+	font-style: normal;
 }
 
 div#__nuxt,
 #__layout,
 #__layout > div,
 #app {
-  min-height: 100vh;
+	min-height: 100vh;
 }
