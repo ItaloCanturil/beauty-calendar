@@ -14,3 +14,11 @@ div#__nuxt,
 #app {
 	min-height: 100vh;
 }
+
+.back__primary {
+	@apply bg-[#EBEDD4];
+}
+
+.wrapper {
+	@apply bg-white rounded-lg;
+}

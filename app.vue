@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-[#EBEDD4]">
+  <div class="back__primary">
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
