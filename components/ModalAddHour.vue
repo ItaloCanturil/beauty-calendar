@@ -21,14 +21,14 @@
 
   const validateDate = () => {
     const isDuplicate = existsDate(date.value as Date);
-    console.log("🚀 ~ validateDate ~ res:", isDuplicate)
 
     if (isDuplicate) {
       err.value = 'Horário já existente, adicione outro.';
       return;
     }
 
-    emit('data', date.value as Date)
+    emit('data', date.value as Date);
+    emit('update:visible', false);
   }
 
   watch(
@@ -36,6 +36,7 @@
     (isVisible) => {
       if (!isVisible) {
         date.value = undefined;
+        err.value = undefined;
       }
     }
   )

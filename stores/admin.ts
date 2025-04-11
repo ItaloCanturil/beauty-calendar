@@ -1,14 +1,14 @@
-import type { IDate } from "./models/admin";
+import type { IDate, DateTimeEntry } from "./models/admin";
 
 export const useAdminStore = defineStore("admin", () => {
 	const dateAvailable = ref<IDate[]>([]);
-	const datesById = ref<GroupedDateTimeEntry[]>([]);
+	const dates = ref<DateTimeEntry[]>([]);
 
-	async function getAvailableDate(id: string) {
+	async function fetchDates(id: string) {
 		try {
 			const data = await $fetch(`/api/v1/dates?id=${id}`, { method: "get" });
 
-			datesById.value = data;
+			dates.value = data;
 		} catch (err) {
 			if (err) {
 				throw createError(err);
@@ -47,8 +47,8 @@ export const useAdminStore = defineStore("admin", () => {
 
 	return {
 		dateAvailable,
-		datesById,
-		getAvailableDate,
+		dates,
+		fetchDates,
 		existsDate,
 		pushDate,
 		removeDate,

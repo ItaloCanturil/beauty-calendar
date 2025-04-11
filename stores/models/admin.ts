@@ -8,9 +8,11 @@ export type IDate = {
 export type DateTimeEntry = {
 	id: number;
 	created_at: string;
-	available_date: string;
-	available_time: string;
+	upload_at: string;
+	available_at: string;
 	admin_id: string;
+	duration: string;
+	schedule: string;
 };
 
 export type GroupedDateTimeEntry = {

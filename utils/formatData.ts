@@ -9,7 +9,7 @@ export const formatHour = (hour: string) => {
 	return `${hr}:${mn}`;
 };
 
-export const formatDate = (hour: string) => {
+export const formatOnlyDate = (hour: string) => {
 	const date = new Date(hour).toLocaleString("pt-BR", {
 		timeZone: "America/Sao_Paulo",
 		hour12: false,
@@ -34,4 +34,8 @@ export const stripTimeAndTimezone = (dateTime: string): string => {
 
 export const camelToSnake = (str: string) => {
 	return str.replace(/[A-Z]/g, (letter) => `_${letter.toLocaleLowerCase()}`);
+};
+
+export const formatDate = (dateStr: string) => {
+	return useDateFormat(new Date(dateStr), "DD/MM/YYYY HH:mm").value;
 };
