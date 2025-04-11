@@ -16,12 +16,9 @@ export const useAdminStore = defineStore("admin", () => {
 		}
 	}
 
-	const existsDate = (available_date: string, available_time: string) => {
+	const existsDate = (available_date: Date) => {
 		return dateAvailable.value.some((item) => {
-			return (
-				formatDate(item.available_date) === formatDate(available_date) &&
-				item.available_time === formatHour(available_time)
-			);
+			return item.available_at === available_date;
 		});
 	};
 

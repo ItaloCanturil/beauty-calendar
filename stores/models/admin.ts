@@ -1,8 +1,8 @@
 export type IDate = {
-	available_date: string;
-	available_time: string;
+	available_at: Date;
 	admin_id: string;
 	schedule: string;
+	duration?: string;
 };
 
 export type DateTimeEntry = {
