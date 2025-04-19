@@ -1,17 +1,32 @@
 import type { IProfile, ProfileSettings } from "./models/admin";
 import { get, useStorage } from "@vueuse/core";
 
+interface ProfileState {
+	profile: IProfile | null;
+	adminProfile: IProfile | null;
+	profiles: IProfile[];
+	isLoading: boolean;	
+}
+
 export const useProfileStore = defineStore("profile", () => {
-	const profile = ref<IProfile>();
-	const adminProfile = ref<IProfile>();
-	const profiles = ref<IProfile[]>();
+	const state = ref<ProfileState>({
+		profile: null,
+		adminProfile: null,
+		profiles: [],
+		isLoading: false,
+	})
 
 	const user = useSupabaseUser();
 	const session = useSupabaseSession();
 
 	const sessionProfile = session ? session : null;
 
-	const getProfile = async () => {
+	const getProfile = async (): Promise<IProfile> => {
+		if (state.value.profile) {
+			return state.value.profile;
+		}
+
+		state.value.isLoading = true;
 		try {
 			if (get(user) == null) {
 				throw createError({
@@ -19,13 +34,13 @@ export const useProfileStore = defineStore("profile", () => {
 					message: "Não tem usuário logado",
 				});
 			}
-			const userId = get(user)?.id;
+			const currenntUser = get(user);
 
-			const data = await $fetch<IProfile>(`/api/v1/profile?id=${userId}`, {
-				method: "get",
+			const data = await $fetch<IProfile>(`/api/v1/profile?id=${currenntUser?.id}`, {
+				method: "GET",
 			});
 
-			profile.value = data;
+			state.value.profile = data;
 
 			return data;
 		} catch (error: any) {
@@ -34,6 +49,8 @@ export const useProfileStore = defineStore("profile", () => {
 				data: error,
 				statusCode: 404,
 			});
+		} finally {
+			state.value.isLoading = false;
 		}
 	};
 
@@ -43,7 +60,7 @@ export const useProfileStore = defineStore("profile", () => {
 				method: "get",
 			});
 
-			adminProfile.value = data;
+			state.value.adminProfile = data;
 
 			return data;
 		} catch (error: any) {
@@ -61,7 +78,7 @@ export const useProfileStore = defineStore("profile", () => {
 				method: "get",
 			});
 
-			profiles.value = data;
+			state.value.profiles = data;
 
 			return data;
 		} catch (error: any) {
@@ -89,14 +106,21 @@ export const useProfileStore = defineStore("profile", () => {
 		}
 	};
 
+	const resetState = () => {
+		state.value = {
+			profile: null,
+			adminProfile: null,
+			profiles: [],
+			isLoading: false,
+		};
+	}
+
 	return {
-		profile,
-		profiles,
-		adminProfile,
+		...toRefs(state),
 		getProfile,
 		getAllProfiles,
 		getAdminProfile,
-		sessionProfile,
 		updateProfile,
+		resetState,
 	};
 });
