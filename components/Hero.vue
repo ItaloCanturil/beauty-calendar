@@ -18,13 +18,13 @@
       scale: 0
     }" :animate="{
       scale: 1
-    }" class="max-w-96">
+    }" class="max-w-96 z-10">
 
       <h1 class="text-white text-4xl">
         Simplifique o agendamento do seu negócio
       </h1>
 
-      <div class="flex flex-col gap-2 mb-20 mt-5 bg-zinc-50 p-4 rounded-xl ">
+      <div class="flex flex-col gap-2 mb-20 mt-5 bg-zinc-50 p-4 rounded-xl">
         <Button class="rounded-full" label="Entrar como profissional" @click="() => emit('login', 'professional')" />
 
         <span>ou</span>

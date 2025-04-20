@@ -43,10 +43,10 @@
 </script>
 
 <template>
-  <figure class="absolute inset-0 sm:z-0 overflow-hidden max-w" @mouseenter="pauseAnimation"
+  <figure class="absolute inset-0 z-0 overflow-hidden sm:max-w-1/2" @mouseenter="pauseAnimation"
     @mouseleave="resumeAnimation">
     <motion.img v-for="(img, index) in images" :key="img.path" :src="img.path" :alt="img.alt"
-      :style="{ display: currentIndex === index ? 'block' : 'none' }" class="object-cover h-full"
+      :style="{ display: currentIndex === index ? 'block' : 'none' }" class="object-cover h-full w-full"
       :initial="{ opacity: 0 }" :animate="{ opacity: currentIndex === index ? 1 : 0 }" :exit="{ opacity: 0 }"
       :transition="{ duration: 1 }" />
   </figure>
