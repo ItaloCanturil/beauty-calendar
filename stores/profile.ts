@@ -1,126 +1,115 @@
 import type { IProfile, ProfileSettings } from "./models/admin";
-import { get, useStorage } from "@vueuse/core";
-
-interface ProfileState {
-	profile: IProfile | null;
-	adminProfile: IProfile | null;
-	profiles: IProfile[];
-	isLoading: boolean;	
-}
+import { get } from "@vueuse/core";
 
 export const useProfileStore = defineStore("profile", () => {
-	const state = ref<ProfileState>({
-		profile: null,
-		adminProfile: null,
-		profiles: [],
-		isLoading: false,
-	})
+  const profile = ref<IProfile | null>(null);
+  const adminProfile = ref<IProfile | null>(null);
+  const profiles = ref<IProfile[]>([]);
+  const isLoading = ref(false);
 
-	const user = useSupabaseUser();
-	const session = useSupabaseSession();
+  const user = useSupabaseUser();
+  const session = useSupabaseSession();
 
-	const sessionProfile = session ? session : null;
+  const sessionProfile = session ? session : null;
 
-	const getProfile = async (): Promise<IProfile> => {
-		if (state.value.profile) {
-			return state.value.profile;
-		}
+  const getProfile = async (): Promise<IProfile> => {
+    if (profile.value) {
+      return profile.value;
+    }
 
-		state.value.isLoading = true;
-		try {
-			if (get(user) == null) {
-				throw createError({
-					statusCode: 401,
-					message: "Não tem usuário logado",
-				});
-			}
-			const currenntUser = get(user);
+    isLoading.value = true;
+    try {
+      if (get(user) == null) {
+        throw createError({
+          statusCode: 401,
+          message: "Não tem usuário logado",
+        });
+      }
+      const currenntUser = get(user);
 
-			const data = await $fetch<IProfile>(`/api/v1/profile?id=${currenntUser?.id}`, {
-				method: "GET",
-			});
+      const data = await $fetch<IProfile>(`/api/v1/profile?id=${currenntUser?.id}`, {
+        method: "GET",
+      });
 
-			state.value.profile = data;
+      profile.value = data;
+      return data;
+    } catch (error: any) {
+      throw createError({
+        message: "Erro na busca de conta",
+        data: error,
+        statusCode: 404,
+      });
+    } finally {
+      isLoading.value = false;
+    }
+  };
 
-			return data;
-		} catch (error: any) {
-			throw createError({
-				message: "Erro na busca de conta",
-				data: error,
-				statusCode: 404,
-			});
-		} finally {
-			state.value.isLoading = false;
-		}
-	};
+  const getAdminProfile = async (id: string) => {
+    try {
+      const data = await $fetch<IProfile>(`/api/v1/profile?id=${id}`, {
+        method: "get",
+      });
 
-	const getAdminProfile = async (id: string) => {
-		try {
-			const data = await $fetch<IProfile>(`/api/v1/profile?id=${id}`, {
-				method: "get",
-			});
+      adminProfile.value = data;
+      return data;
+    } catch (error: any) {
+      throw createError({
+        message: "Erro na busca por conta Admin",
+        data: error,
+        statusCode: 404,
+      });
+    }
+  };
 
-			state.value.adminProfile = data;
+  const getAllProfiles = async () => {
+    try {
+      const data = await $fetch<IProfile[]>(`/api/v1/profile/list`, {
+        method: "get",
+      });
 
-			return data;
-		} catch (error: any) {
-			throw createError({
-				message: "Erro na busca por conta Admin",
-				data: error,
-				statusCode: 404,
-			});
-		}
-	};
+      profiles.value = data;
+      return data;
+    } catch (error: any) {
+      throw createError({
+        message: error.message,
+      });
+    }
+  };
 
-	const getAllProfiles = async () => {
-		try {
-			const data = await $fetch<IProfile[]>(`/api/v1/profile/list`, {
-				method: "get",
-			});
+  const updateProfile = async (param: ProfileSettings) => {
+    try {
+      const data = await $fetch("/api/v1/profile", {
+        method: "POST",
+        body: param,
+      });
 
-			state.value.profiles = data;
+      if (data) {
+        await getProfile();
+      }
+    } catch (error) {
+      return createError({
+        data: error,
+        message: "Erro na atualização do usuário",
+      });
+    }
+  };
 
-			return data;
-		} catch (error: any) {
-			throw createError({
-				message: error.message,
-			});
-		}
-	};
+  const resetState = () => {
+    profile.value = null;
+    adminProfile.value = null;
+    profiles.value = [];
+    isLoading.value = false;
+  };
 
-	const updateProfile = async (param: ProfileSettings) => {
-		try {
-			const data = await $fetch("/api/v1/profile", {
-				method: "POST",
-				body: param,
-			});
-
-			if (data) {
-				await getProfile();
-			}
-		} catch (error) {
-			return createError({
-				data: error,
-				message: "Erro na atualização do usuário",
-			});
-		}
-	};
-
-	const resetState = () => {
-		state.value = {
-			profile: null,
-			adminProfile: null,
-			profiles: [],
-			isLoading: false,
-		};
-	}
-
-	return {
-		...toRefs(state),
-		getProfile,
-		getAllProfiles,
-		getAdminProfile,
-		updateProfile,
-		resetState,
-	};
+  return {
+    profile,
+    adminProfile,
+    profiles,
+    isLoading,
+    getProfile,
+    getAllProfiles,
+    getAdminProfile,
+    updateProfile,
+    resetState,
+  };
 });
